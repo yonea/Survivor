@@ -3,6 +3,7 @@
 ## Créateur : 
 * SOLANA Louis
 * BAROUKH Yoni
+* PANZERA Alexis
 
 ### Création d'un jeu de Flipper en Javascript.
 
