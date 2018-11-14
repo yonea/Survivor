@@ -1,4 +1,4 @@
-# Flipper-Game
+# SURVIVOR
 
 ## Créateur : 
 * SOLANA Louis
