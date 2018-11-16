@@ -2,20 +2,41 @@ let canvas, ctx;
 let lc, hc;
 let keyd, keyu;
 let rigthEna, leftEna, upEna, downEna;
+let mousePos;
 
 class Rectangle {
-  constructor(x, y, l, h, vx, vy) {
+  constructor(x, y, l, h, vx, vy, angle) {
     this.x = x;
     this.y = y;
     this.l = l;
     this.h = h;
     this.vx = vx;
     this.vy = vy;
+    this.angle = angle || 0;
   }
   
   draw(ctx) {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    ctx.translate(-this.l/2, -this.h/2);
     ctx.fillStyle = "black";
-    ctx.fillRect(this.x, this.y, this.l, this.h);
+    ctx.strokeStyle = "black";
+    ctx.strokeRect(0,0, this.l, this.h);
+    ctx.fillRect(27,0, 6, 20);
+    
+    
+    
+    ctx.restore();
+ 
+  }
+  
+  suitsouris(mousePos)
+  {
+    let dx = this.x - mousePos.x;
+    let dy = this.y - mousePos.y;
+    this.angle = Math.atan2(dy,dx) -Math.PI/2;
+    
   }
   
   move() {
@@ -73,10 +94,10 @@ window.onload = function () {
 
 function creerDesRectangles() {
 
-    let l = 30;
-    let h = 30;
-    let x = Math.random() * lc - l;
-    let y = Math.random()*hc - h;
+    let l = 60;
+    let h = 60;
+    let x = Math.random() * (lc - 60);
+    let y = Math.random()*(hc - 60);
     let vx = 0;
     let vy = 0;
     
@@ -91,7 +112,12 @@ function onmousemove_page(event)
 
   if( window.event)
     event = window.event;
+  
+  mousePos = {};
+  mousePos.x = event.clientX ;
+  mousePos.y = event.clientY ;
 
+  
   let spanx = document.querySelector("#poscx");
   spanx.innerHTML = event.clientX;
 
@@ -161,6 +187,34 @@ function mouvementJoueur()
   }
 }
 
+function detectMur()
+{
+
+  tableauDesRectangles.forEach((r) => {
+    if(r.x <= 5)
+    {
+      leftEna = 0;
+    }
+
+    if(r.x >= (lc - r.l))
+    {
+      rigthEna = 0;
+    }
+
+    if(r.y <= 6)
+    {
+      upEna = 0;
+    }
+
+    if(r.y >= hc - r.h)
+    {
+      downEna = 0;
+    }
+  })
+
+ 
+}
+
 function onkeyd_page(event)
 {
 
@@ -217,6 +271,14 @@ function changerTaille() {
 function anime() {
 
     ctx.clearRect(0, 0, lc, hc);
+
+    detectMur();
+
+if(mousePos !== undefined) {
+  tableauDesRectangles.forEach((r) => {
+    r.suitsouris(mousePos);
+  })
+}
 
     mouvementJoueur();
     dessinerLesRectangles(); 
