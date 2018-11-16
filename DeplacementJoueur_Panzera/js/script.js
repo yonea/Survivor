@@ -3,6 +3,11 @@ let lc, hc;
 let keyd, keyu;
 let rigthEna, leftEna, upEna, downEna;
 let mousePos;
+let fondEna = 0;
+var personnage = new Image();
+personnage.src = "personnage.png";
+var fond = new Image();
+fond.src = "fond.jpg";
 
 class Rectangle {
   constructor(x, y, l, h, vx, vy, angle) {
@@ -19,11 +24,13 @@ class Rectangle {
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.rotate(this.angle);
-    ctx.translate(-this.l/2, -this.h/2);
+    //ctx.translate(-this.l/2, -this.h/2);
+    ctx.translate(-100/2, -186/2);
+    ctx.drawImage(personnage, 0, 0, 100, 186);
     ctx.fillStyle = "black";
     ctx.strokeStyle = "black";
-    ctx.strokeRect(0,0, this.l, this.h);
-    ctx.fillRect(27,0, 6, 20);
+    //ctx.strokeRect(0,0, this.l, this.h);
+    //ctx.fillRect(27,0, 6, 20);
     
     
     
@@ -46,22 +53,22 @@ class Rectangle {
 
   movel()
   {
-    this.x -= 10;
+    this.x -= 3;
   }
 
   mover()
   {
-    this.x += 10;
+    this.x += 3;
   }
 
   moveu()
   {
-    this.y -= 10;
+    this.y -= 3;
   }
 
   moved()
   {
-    this.y += 10;
+    this.y += 3;
   }
   //  changesize() {
   //   this.l += this.vl;
@@ -88,9 +95,22 @@ window.onload = function () {
     creerDesRectangles();
   
     // Pour animation à 60 im/s
-    requestAnimationFrame(anime);
+    
 }
 
+personnage.onload = function()
+{
+
+  requestAnimationFrame(anime);
+
+}
+
+fond.onload = function()
+{
+
+fondEna = 1;
+
+}
 
 function creerDesRectangles() {
 
@@ -242,6 +262,7 @@ function onkeyd_page(event)
 
 function dessinerLesRectangles() {
   tableauDesRectangles.forEach((r) => {
+
     r.draw(ctx);
   })
 }
@@ -271,6 +292,8 @@ function changerTaille() {
 function anime() {
 
     ctx.clearRect(0, 0, lc, hc);
+    if(fondEna)
+    ctx.drawImage(fond, 0, 0, lc, hc);
 
     detectMur();
 
