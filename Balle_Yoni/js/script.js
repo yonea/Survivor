@@ -86,7 +86,6 @@ function init() {
   h = canvas.height;
   
   r1 = new Rectangle(50, 50, 50, 50, "black", 0);
-  creerDesBalles();
   document.onmousemove = traiteDeplacementsSouris;
   
   // on demarre la boucle d'animation
@@ -101,7 +100,9 @@ function traiteDeplacementsSouris(event) {
 }
 function creerDesBalles(){
 	let balle = new Balle(50,100);
+
 	tableauDesBalles.push(balle); 
+	
 }
 
 function dessinerLesBalles(){
@@ -115,8 +116,15 @@ function deplacerLesBalles(){
 	});
 }
 function tirer(){
-	console.log("tirer");
+	
+	console.log(r1.x);
+	let bx = r1.x ;
+	let by = r1.y ;
+	let balle = new Balle(bx,by);
+
+	tableauDesBalles.push(balle); 
 }
+
 function mainloop() {
   // on efface le canvas
   ctx.clearRect(0, 0, w, h);
@@ -124,12 +132,13 @@ function mainloop() {
   // On dessine des objets
   r1.draw(ctx);
 
-
+	dessinerLesBalles();
+	deplacerLesBalles(); 
    
-  dessinerLesBalles();
+  
 
     // 3 On change l'état (position, couleur, taille etc.)
-  deplacerLesBalles(); 
+  
  
   
   // On déplace des objets
