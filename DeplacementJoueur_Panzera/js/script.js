@@ -13,6 +13,64 @@ cheval.src = "cheval.png";
 var fond = new Image();
 fond.src = "fond.jpg";
 
+//image pistolet : 195/301 . 147/560
+//100 . 186
+//64.8 . 48.8
+
+class Balle {
+  constructor(x,y, vx, vy, v){
+    this.x = x;
+    this.y = y;
+    this.vx = vx;
+    this.vy = vy;
+    this.v = v;
+  }
+
+  draw(ctx){
+      ctx.beginPath();
+      ctx.ellipse(this.x, this.y, 4, 4, 45 * Math.PI/180, 0, 2 * Math.PI);
+      ctx.stroke();   
+      ctx.fillStyle = "#FFCC33";
+      ctx.fill();
+     
+
+  }
+   move() {
+    this.x += this.vx*this.v;
+    this.y += this.vy*this.v;
+  }
+  
+}
+let tableauDesBalles = [];
+
+function dessinerLesBalles(){
+  tableauDesBalles.forEach((r) => {
+    r.draw(ctx);
+  })
+}
+
+function deplacerLesBalles(){
+  tableauDesBalles.forEach((r) => {
+    r.move();
+  });
+}
+
+function tirer(){
+  
+  //console.log(r1.x);
+  let bx = p1.x;
+  let by = p1.y;
+  let ang = Math.atan2((by - mousePos.y),(bx - mousePos.x));
+  let bvx = Math.cos(ang + Math.PI) ;
+  let bvy = Math.sin(ang + Math.PI) ;
+  let bv = 15;
+  
+  let balle = new Balle(bx,by, bvx, bvy, bv);
+
+  tableauDesBalles.push(balle); 
+  focus_page();
+}
+
 class PersonnageI{
 
   constructor(x, y, l, h, v, vy, angle) {
@@ -488,6 +546,8 @@ function anime() {
     ctx.drawImage(fond, 0, 0, lc, hc);
   
 
+  
+
     detectMur();
 
 if(mousePos !== undefined) {
@@ -506,10 +566,13 @@ if(mousePos !== undefined) {
     {
     mouvementCheval();
   }
+  deplacerLesBalles(); 
 
 
 //dessiner les personnges
 
+
+    dessinerLesBalles();  
     dessinerCheval(); 
     dessinerPersonnage();
     
