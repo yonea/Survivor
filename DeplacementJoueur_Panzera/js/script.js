@@ -6,12 +6,16 @@ let mousePos;
 let fondEna = 0;
 let chevalEna = 0;
 let chevalApp = 0;
-var personnage = new Image();
-personnage.src = "personnage.png";
-var cheval = new Image();
-cheval.src = "cheval.png";
-var fond = new Image();
-fond.src = "fond.jpg";
+// var personnage = new Image();
+// personnage.src = "assets/personnage.png";
+// var cheval = new Image();
+// cheval.src = "assets/cheval.png";
+// var fond = new Image();
+// fond.src = "assets/fond.jpg";
+// var fond2 = new Image();
+// fond2.src = "assets/fond2.png";
+// var audio = new Audio();
+// audio.src = "assets/gunjs.wav";
 
 //image pistolet : 195/301 . 147/560
 //100 . 186
@@ -63,12 +67,15 @@ function tirer(){
   let ang = Math.atan2((by - mousePos.y),(bx - mousePos.x));
   let bvx = Math.cos(ang + Math.PI) ;
   let bvy = Math.sin(ang + Math.PI) ;
-  let bv = 15;
+  let bv = 25;
   
   let balle = new Balle(bx,by, bvx, bvy, bv);
 
   tableauDesBalles.push(balle); 
   focus_page();
+  //loadedAssets.audio.pause();
+ // loadedAssets.audio.currentTime = 0;
+  loadedAssets.audio.play();
 }
 
 class PersonnageI{
@@ -88,7 +95,7 @@ draw(ctx) {
     ctx.translate(this.x, this.y);
     ctx.rotate(this.angle);
     ctx.translate(-100/2, -186/2);
-    ctx.drawImage(personnage, 0, 0, 100, 186);
+    ctx.drawImage(loadedAssets.personnage, 0, 0, 100, 186);
     ctx.restore();
  
   }
@@ -142,7 +149,7 @@ draw(ctx) {
     ctx.translate(this.x, this.y);
     ctx.rotate(this.angle);
     ctx.translate(-100/2, -186/2);
-    ctx.drawImage(cheval, 0, 0, 100, 186);
+    ctx.drawImage(loadedAssets.cheval, 0, 0, 100, 186);
     ctx.restore();
  
   }
@@ -196,7 +203,7 @@ class Rectangle {
     ctx.rotate(this.angle);
     //ctx.translate(-this.l/2, -this.h/2);
     ctx.translate(-100/2, -186/2);
-    ctx.drawImage(personnage, 0, 0, 100, 186);
+    ctx.drawImage(loadedAssets.personnage, 0, 0, 100, 186);
     ctx.fillStyle = "black";
     ctx.strokeStyle = "black";
     //ctx.strokeRect(0,0, this.l, this.h);
@@ -251,7 +258,7 @@ class Rectangle {
 
 let tableauDesRectangles = [];
 
-window.onload = function () {
+function demarerJeu() {
     // Appelé quand la page est prête et a chargé
     // toutes ses ressources (images, vidéos etc.)
     console.log("pret")
@@ -264,7 +271,9 @@ window.onload = function () {
     ctx = canvas.getContext("2d");
     creerDesRectangles();
     creerPersonnages();
+
     //creerCheval();
+    requestAnimationFrame(anime);
 
 
   
@@ -272,19 +281,25 @@ window.onload = function () {
     
 }
 
-personnage.onload = function()
-{
+      // personnage.onload = function()
+      // {
 
-  
+        
 
-}
+      // }
 
-fond.onload = function()
-{
-requestAnimationFrame(anime);
-//fondEna = 1;
+      // fond2.onload = function()
+      // {
+      // requestAnimationFrame(anime);
+      // //fondEna = 1;
 
-}
+      // }
+// audio.onload = function()
+// {
+// requestAnimationFrame(anime);
+// //fondEna = 1;
+
+// }
 function creerCheval()
 {
 
@@ -306,9 +321,10 @@ function creerPersonnages()
      h = 60;
       x = Math.random() * (lc - 60);
       y = Math.random()*(hc - 60);
+      a = Math.random()*2*Math.PI;
 
      vy = 0;
-  ch1 = new ChevalI(x, y, l, h, v, vy)
+  ch1 = new ChevalI(x, y, l, h, v, vy,a)
 
 }
 
@@ -537,13 +553,15 @@ function changerTaille() {
 //   });
     
 // }
-
+let icomp = 0;
 function anime() {
+
+
 
     ctx.clearRect(0, 0, lc, hc);
 
  
-    ctx.drawImage(fond, 0, 0, lc, hc);
+    ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
   
 
   
@@ -575,6 +593,9 @@ if(mousePos !== undefined) {
     dessinerLesBalles();  
     dessinerCheval(); 
     dessinerPersonnage();
+    // ctx.drawImage(fond2, (-100 + (100 - p1.x/lc*100)), (-100 + (100 - p1.y/hc*100)), lc+200, hc+200);
+    ctx.drawImage(loadedAssets.fond2, (-100 + ((Math.cos(icomp)*50)+50)), (-100 + ((Math.sin(icomp*0.7)*35)+35)), lc+200, hc+200);
+    //ctx.drawImage(fond2, (-100 + ((Math.cos(icomp*1.2)*25)+50)), (-100 + ((Math.sin(icomp*1.3)*50)+35)), lc+200, hc+200);
     
 if(p1.x <= (ch1.x + 50) && p1.x >= (ch1.x - 50) && p1.y <= (ch1.y + 50) && p1.y >= (ch1.y - 50) && chevalEna == 0 && chevalApp == 0)
 {
@@ -592,4 +613,5 @@ if(p1.x >= (ch1.x + 50) || p1.x <= (ch1.x - 50) || p1.y >= (ch1.y + 50) || p1.y 
     
 
     requestAnimationFrame(anime);
+    icomp += 0.015;
 }
