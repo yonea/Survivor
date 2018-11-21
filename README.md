@@ -1,6 +1,6 @@
 # SURVIVOR
 
-Version la plus avancé dans DeplacementJoueur_Panzera > index.html
+Version la plus avancée dans : DeplacementJoueur_Panzera > index.html
 ## Créateur : 
 * SOLANA Louis
 * BAROUKH Yoni
