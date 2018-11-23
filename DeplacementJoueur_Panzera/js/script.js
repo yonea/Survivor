@@ -6,6 +6,8 @@ let mousePos;
 let fondEna = 0;
 let chevalEna = 0;
 let chevalApp = 0;
+let pauseEna = 0;
+let fenetre1Ena = 1;
 // var personnage = new Image();
 // personnage.src = "assets/personnage.png";
 // var cheval = new Image();
@@ -60,7 +62,7 @@ function deplacerLesBalles(){
 }
 
 function tirer(){
-  
+  if(!pauseEna){
   //console.log(r1.x);
   let bx = p1.x;
   let by = p1.y;
@@ -76,6 +78,7 @@ function tirer(){
   //loadedAssets.audio.pause();
  // loadedAssets.audio.currentTime = 0;
   loadedAssets.audio.play();
+}
 }
 
 class PersonnageI{
@@ -272,8 +275,12 @@ function demarerJeu() {
     creerDesRectangles();
     creerPersonnages();
 
+
     //creerCheval();
-    requestAnimationFrame(anime);
+    //requestAnimationFrame(anime);
+    requestAnimationFrame(animeDemarre);
+    loadedAssets.audiofond.play();
+    
 
 
   
@@ -514,6 +521,22 @@ function onkeyd_page(event)
     ch1.v = 5;
   p1.v=5;
   }
+  if(event.keyCode == 27)
+  {
+    if(pauseEna)
+    {
+      pauseEna = 0;
+      icompPause = 0;
+      loadedAssets.audiofond.play();
+    loadedAssets.audiomus2.pause();
+    }
+    else if(!pauseEna){
+      pauseEna = 1;
+      loadedAssets.audiofond.pause();
+    loadedAssets.audiomus2.play();
+    }
+
+  }
 }
 
 function dessinerPersonnage(){
@@ -528,7 +551,7 @@ function dessinerCheval(){
 function dessinerLesRectangles() {
   tableauDesRectangles.forEach((r) => {
 
-    r.draw(ctx);
+    r.drawjue(ctx);
   })
 }
 
@@ -553,8 +576,68 @@ function changerTaille() {
 //   });
     
 // }
+let icompdemarre = 0;
+function animeDemarre(){
+ 
+
+  if(icompdemarre <= 1){
+    ctx.clearRect(0, 0, lc, hc);
+  ctx.fillStyle = "rgba(220, 20, 20, " + icompdemarre + ")";
+    ctx.fillRect(0,0,lc,hc);
+    ctx.drawImage(loadedAssets.logords, lc/2 - 300,hc/2 - 130 , 600, 261);
+  }
+  if(icompdemarre > 1 && icompdemarre <= 2.2 )
+  {
+    ctx.clearRect(0, 0, lc, hc);
+    ctx.fillStyle = "rgba(220, 20, 20, 1)";
+    ctx.fillRect(0,0,lc,hc);
+    ctx.drawImage(loadedAssets.logords, lc/2 - 300, ((-200*icompdemarre +600) - 130) , 600, 261);
+  }
+  if (icompdemarre >= 3) {
+    fenetre1Ena = 0;
+    requestAnimationFrame(anime);
+  }
+
+
+
+
+
+icompdemarre += 0.01;
+if(fenetre1Ena)
+requestAnimationFrame(animeDemarre);
+}
+
 let icomp = 0;
+let icompPause = 0;
+
 function anime() {
+  if (pauseEna) {
+    
+    //ctx.clearRect(0, 0, lc, hc);
+if(icompPause <= 8){
+   
+    ctx.fillStyle = "rgba(220, 84, 44, 0.1)";
+    //ctx.fillStyle = "rgba(200, 75, 37, 0.1)";
+    //ctx.fillStyle = "rgba(165, 25, 25, 0.1)";
+    ctx.fillRect(0,0,lc,hc);
+  }
+if(icompPause == 9)
+  {
+    ctx.font="65px Courier New";
+    ctx.fillStyle = "black";
+
+    ctx.fillText("PAUSE",lc/2-90,9*hc/10);
+    ctx.drawImage(loadedAssets.logords, lc/2 - 300,hc/15 , 600, 261);
+
+
+  }
+
+    icompPause +=1;
+
+
+
+  }
+else {
 
 
 
@@ -609,9 +692,8 @@ if(p1.x <= (ch1.x + 50) && p1.x >= (ch1.x - 50) && p1.y <= (ch1.y + 50) && p1.y 
 if(p1.x >= (ch1.x + 50) || p1.x <= (ch1.x - 50) || p1.y >= (ch1.y + 50) || p1.y <= (ch1.y - 50) )
 {
   chevalApp = 0;
-}
-    
-
-    requestAnimationFrame(anime);
+}    
     icomp += 0.015;
+  }
+  requestAnimationFrame(anime);
 }

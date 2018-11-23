@@ -4,8 +4,15 @@ var assetsToLoadURLs = {
     personnage: { url: './assets/personnage.png' },
     cheval: { url: './assets/cheval.png' },
     fond: { url: './assets/fond.jpg' },
-    audio: {url: './assets/gunjs.mp3' , buffer: false, loop: false, volume: 1 },
-    fond2: { url: './assets/fond2.png' }
+    audio: {url: './assets/gunjs.mp3' , buffer: false, loop: false, volume: 0.6 },
+    fond2: { url: './assets/fond2.png' },
+    logords: { url: './assets/rdsurvivor_logo.png' },
+    audiofond: {url: './assets/windjs.mp3' , buffer: false, loop: true, volume: 0.1 },
+    audiomus: {url: './assets/musiquejs.mp3' , buffer: false, loop: true, volume: 0.8 },
+    audiomus2: {url: './assets/musiquejspause.mp3' , buffer: false, loop: true, volume: 0.8 }
+    
+    
+    
     
 };
 
