@@ -7,7 +7,7 @@ Version la plus avancée dans : DeplacementJoueur_Panzera > index.html
 * PANZERA Alexis
 
 ### Création d'un jeu de Survie qui consiste à rester le plus longtemps en vie contre une invasion de zombie.
-### 4 niveaux composent le jeu : le dernier étant le plus difficile avec une multitude de zombie rapide et imprévisible ! 
+### 4 niveaux composent le jeu : le dernier étant le plus difficile avec une multitude de zombies rapides et imprévisibles ! 
 
 ### Module permettant son développement :
 * Module lancement d'une partie. 
