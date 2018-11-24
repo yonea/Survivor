@@ -8,6 +8,8 @@ let chevalEna = 0;
 let chevalApp = 0;
 let pauseEna = 0;
 let fenetre1Ena = 1;
+let fenetre2Ena = 1;
+let icompdemarreEna = 1;
 // var personnage = new Image();
 // personnage.src = "assets/personnage.png";
 // var cheval = new Image();
@@ -19,66 +21,36 @@ let fenetre1Ena = 1;
 // var audio = new Audio();
 // audio.src = "assets/gunjs.wav";
 
+//fentre1Ena correspond à la page de démarrage
+
 //image pistolet : 195/301 . 147/560
 //100 . 186
 //64.8 . 48.8
 
-class Balle {
-  constructor(x,y, vx, vy, v){
+class ChoixI{
+
+constructor(x, y, color, texte) {
     this.x = x;
     this.y = y;
-    this.vx = vx;
-    this.vy = vy;
-    this.v = v;
+    this.color = color;
+    this.texte=texte;
   }
 
-  draw(ctx){
-      ctx.beginPath();
-      ctx.ellipse(this.x, this.y, 4, 4, 45 * Math.PI/180, 0, 2 * Math.PI);
-      ctx.stroke();   
-      ctx.fillStyle = "#FFCC33";
-      ctx.fill();
-     
+  draw(ctx) {
+    ctx.font="65px Courier New";
+  ctx.fillStyle = this.color;
+  ctx.fillText(this.text,this.x,this.y);
 
   }
-   move() {
-    this.x += this.vx*this.v;
-    this.y += this.vy*this.v;
+
+  changeColor(ctx){
+
+
   }
-  
-}
-let tableauDesBalles = [];
 
-function dessinerLesBalles(){
-  tableauDesBalles.forEach((r) => {
-    r.draw(ctx);
-  })
-}
 
-function deplacerLesBalles(){
-  tableauDesBalles.forEach((r) => {
-    r.move();
-  });
-}
 
-function tirer(){
-  if(!pauseEna){
-  //console.log(r1.x);
-  let bx = p1.x;
-  let by = p1.y;
-  let ang = Math.atan2((by - mousePos.y),(bx - mousePos.x));
-  let bvx = Math.cos(ang + Math.PI) ;
-  let bvy = Math.sin(ang + Math.PI) ;
-  let bv = 25;
-  
-  let balle = new Balle(bx,by, bvx, bvy, bv);
 
-  tableauDesBalles.push(balle); 
-  focus_page();
-  //loadedAssets.audio.pause();
- // loadedAssets.audio.currentTime = 0;
-  loadedAssets.audio.play();
-}
 }
 
 class PersonnageI{
@@ -93,14 +65,14 @@ class PersonnageI{
     this.angle = angle || 0;
   }
 
-draw(ctx) {
+  draw(ctx) {
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.rotate(this.angle);
     ctx.translate(-100/2, -186/2);
     ctx.drawImage(loadedAssets.personnage, 0, 0, 100, 186);
     ctx.restore();
- 
+
   }
 
   suitsouris(mousePos)
@@ -130,9 +102,6 @@ draw(ctx) {
   {
     this.y += this.v;
   }
-
-
-
 }
 
 class ChevalI{
@@ -147,14 +116,14 @@ class ChevalI{
     this.angle = angle || 0;
   }
 
-draw(ctx) {
+  draw(ctx) {
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.rotate(this.angle);
     ctx.translate(-100/2, -186/2);
     ctx.drawImage(loadedAssets.cheval, 0, 0, 100, 186);
     ctx.restore();
- 
+
   }
 
   suitsouris(mousePos)
@@ -184,82 +153,99 @@ draw(ctx) {
   {
     this.y += this.v;
   }
-
-
-
 }
 
-class Rectangle {
-  constructor(x, y, l, h, vx, vy, angle) {
+class Balle {
+  constructor(x,y, vx, vy, v){
     this.x = x;
     this.y = y;
-    this.l = l;
-    this.h = h;
     this.vx = vx;
     this.vy = vy;
-    this.angle = angle || 0;
+    this.v = v;
   }
-  
-  draw(ctx) {
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(this.angle);
-    //ctx.translate(-this.l/2, -this.h/2);
-    ctx.translate(-100/2, -186/2);
-    ctx.drawImage(loadedAssets.personnage, 0, 0, 100, 186);
-    ctx.fillStyle = "black";
-    ctx.strokeStyle = "black";
-    //ctx.strokeRect(0,0, this.l, this.h);
-    //ctx.fillRect(27,0, 6, 20);
-    
-    
-    
-    ctx.restore();
- 
+
+  draw(ctx){
+    ctx.beginPath();
+    ctx.ellipse(this.x, this.y, 4, 4, 45 * Math.PI/180, 0, 2 * Math.PI);
+    ctx.stroke();   
+    ctx.fillStyle = "#FFCC33";
+    ctx.fill();
+
+
   }
-  
-  suitsouris(mousePos)
-  {
-    let dx = this.x - mousePos.x;
-    let dy = this.y - mousePos.y;
-    this.angle = Math.atan2(dy,dx) -Math.PI/2;
-    
-  }
-  
   move() {
-    this.x += this.vx;
-    this.y += this.vy;
+    this.x += this.vx*this.v;
+    this.y += this.vy*this.v;
   }
-
-  movel()
-  {
-    this.x -= 3;
-  }
-
-  mover()
-  {
-    this.x += 3;
-  }
-
-  moveu()
-  {
-    this.y -= 3;
-  }
-
-  moved()
-  {
-    this.y += 3;
-  }
-  //  changesize() {
-  //   this.l += this.vl;
-  //   this.h += this.vh;
-  // }
-  // decrisToi() {
-  //   return "Je suis un rectangle de couleur : " + this.couleur;
-  // }
+  
 }
 
-let tableauDesRectangles = [];
+let tableauDesBalles = [];
+
+function dessinerLesBalles(){
+  tableauDesBalles.forEach((r) => {
+    r.draw(ctx);
+  })
+}
+
+function deplacerLesBalles(){
+  tableauDesBalles.forEach((r) => {
+    r.move();
+  });
+}
+
+function creerChoix(){
+aJouer = new ChoixI(20, 400, "black", "Jouer"); 
+
+}
+
+function creerCheval()
+{
+
+}
+
+function creerPersonnages()
+{
+ let l = 60;
+ let h = 60;
+ let x = Math.random() * (lc - 60);
+ let y = Math.random()*(hc - 60);
+ let v = 5;
+ let vy = 0;
+ p1 = new PersonnageI(x, y, l, h, v, vy)
+
+ l = 60;
+ h = 60;
+ x = Math.random() * (lc - 60);
+ y = Math.random()*(hc - 60);
+ a = Math.random()*2*Math.PI;
+ vy = 0;
+ ch1 = new ChevalI(x, y, l, h, v, vy,a)
+
+}
+
+function tirer(){
+  let bx = p1.x;
+  let by = p1.y;
+  let ang = Math.atan2((by - mousePos.y),(bx - mousePos.x));
+  let bvx = Math.cos(ang + Math.PI) ;
+  let bvy = Math.sin(ang + Math.PI) ;
+  let bv = 25;
+  let balle = new Balle(bx,by, bvx, bvy, bv);
+  tableauDesBalles.push(balle); 
+  loadedAssets.audio.play();
+}
+
+function onclick_page(){
+  if(!pauseEna){
+    tirer();
+  }
+
+  varSourisChoix = testSourisChoix();
+
+
+}
+
 
 function demarerJeu() {
     // Appelé quand la page est prête et a chargé
@@ -272,86 +258,19 @@ function demarerJeu() {
     lc = canvas.width;
     hc = canvas.height;
     ctx = canvas.getContext("2d");
-    creerDesRectangles();
     creerPersonnages();
-
+    creerChoix();
 
     //creerCheval();
     //requestAnimationFrame(anime);
-    requestAnimationFrame(animeDemarre);
-    loadedAssets.audiofond.play();
-    
+    //pauseEna = 0;
 
-
-  
-    // Pour animation à 60 im/s
-    
+    pauseEna = 1;
+    loadedAssets.audiosound1.play();
+    requestAnimationFrame(animeDemarre);  
 }
 
-      // personnage.onload = function()
-      // {
-
-        
-
-      // }
-
-      // fond2.onload = function()
-      // {
-      // requestAnimationFrame(anime);
-      // //fondEna = 1;
-
-      // }
-// audio.onload = function()
-// {
-// requestAnimationFrame(anime);
-// //fondEna = 1;
-
-// }
-function creerCheval()
-{
-
-
-
-}
-function creerPersonnages()
-{
-
-   let l = 60;
-    let h = 60;
-    let x = Math.random() * (lc - 60);
-    let y = Math.random()*(hc - 60);
-    let v = 5;
-    let vy = 0;
-  p1 = new PersonnageI(x, y, l, h, v, vy)
-
-      l = 60;
-     h = 60;
-      x = Math.random() * (lc - 60);
-      y = Math.random()*(hc - 60);
-      a = Math.random()*2*Math.PI;
-
-     vy = 0;
-  ch1 = new ChevalI(x, y, l, h, v, vy,a)
-
-}
-
-function creerDesRectangles() {
-
-    let l = 60;
-    let h = 60;
-    let x = Math.random() * (lc - 60);
-    let y = Math.random()*(hc - 60);
-    let vx = 0;
-    let vy = 0;
-    
-    let rect = new Rectangle(x, y, l, h, vx, vy);
-    
-    tableauDesRectangles.push(rect);
-
-}
-
-function onmousemove_page(event)
-{
+function onmousemove_page(event){
 
   if( window.event)
     event = window.event;
@@ -360,7 +279,6 @@ function onmousemove_page(event)
   mousePos.x = event.clientX ;
   mousePos.y = event.clientY ;
 
-  
   let spanx = document.querySelector("#poscx");
   spanx.innerHTML = event.clientX;
 
@@ -368,40 +286,79 @@ function onmousemove_page(event)
   spany.innerHTML = event.clientY;
 }
 
-function focus_page()
+function onkeyd_page(event){
+
+ if(window.event)
+  event = window.event;
+
+keyd = String.fromCharCode(event.keyCode);
+
+if(keyd == "Q" || event.keyCode == 37)
 {
-   document.getElementById("myCanvas").focus();
-   //alert("?");
+  leftEna = 1;
+}
+if(keyd == "Z" || event.keyCode == 38)
+{
+  upEna = 1;
+}
+if(keyd == "S" || event.keyCode == 40)
+{
+  downEna = 1;
+}
+if(keyd == "D" || event.keyCode == 39)
+{
+  rigthEna = 1;
+}
+
+if(event.keyCode == 32 && chevalEna == 1)
+{
+  //DESCENDRE CHEVAL
+  chevalEna = 0;
+  ch1.x = p1.x - 15;
+  ch1.v = 5;
+  p1.v=5;
+}
+
+if(event.keyCode == 27)
+{
+  //GESTION DE LA PAUSE
+  if(pauseEna)
+  {
+    pauseEna = 0;
+    icompPause = 0;
+    loadedAssets.audiofond.play();
+    loadedAssets.audiomus2.pause();
+  }
+  else if(!pauseEna){
+    pauseEna = 1;
+    loadedAssets.audiofond.pause();
+    loadedAssets.audiomus2.play();
+  }
+}
 }
 
 function onkeyu_page(event)
 {
-   if(window.event)
-    event = window.event;
-  keyu = String.fromCharCode(event.keyCode);
+ if(window.event)
+  event = window.event;
+keyu = String.fromCharCode(event.keyCode);
 
-  if(keyu == "Q" || event.keyCode == 37)
-  {
-    leftEna = 0;
-    //    console.log("Up Q");
+if(keyu == "Q" || event.keyCode == 37)
+{
+  leftEna = 0;
   }
   if(keyu == "Z" || event.keyCode == 38)
   {
     upEna = 0;
-    //  console.log("Up Z");
   }
   if(keyu == "S" || event.keyCode == 40)
   {
     downEna = 0;
-    //  console.log("Up S");
   }
   if(keyu == "D" || event.keyCode == 39)
   {
     rigthEna = 0;
-    //  console.log("Up D");
-  }
-
-  
+  }  
 }
 
 function mouvementJoueur()
@@ -409,34 +366,18 @@ function mouvementJoueur()
   if(rigthEna)
   {
     p1.mover();
-
-  //    tableauDesRectangles.forEach((r) => {
-  //   r.mover(ctx);
-  // })
   }
   if(leftEna)
   {
     p1.movel();
-
-  //   tableauDesRectangles.forEach((r) => {
-  //   r.movel(ctx);
-  // })
   }
   if(upEna)
   {
     p1.moveu();
-
-  //   tableauDesRectangles.forEach((r) => {
-  //   r.moveu(ctx);
-  // })
   }
   if(downEna)
   {
     p1.moved();
-
-  //   tableauDesRectangles.forEach((r) => {
-  //   r.moved(ctx);
-  // })
   }
 }
 
@@ -444,30 +385,24 @@ function mouvementCheval()
 {
   if(rigthEna)
   {
-
     ch1.mover();
   }
   if(leftEna)
   {
-
     ch1.movel();
   }
   if(upEna)
   {
-
     ch1.moveu();
   }
   if(downEna)
   {
-
     ch1.moved();
   }
 }
 
 function detectMur()
 {
-
-
     if(p1.x <= 5)
     {
       leftEna = 0;
@@ -487,124 +422,116 @@ function detectMur()
     {
       downEna = 0;
     }
-
- 
-}
-
-function onkeyd_page(event)
-{
-
-   if(window.event)
-    event = window.event;
-
-  keyd = String.fromCharCode(event.keyCode);
-  if(keyd == "Q" || event.keyCode == 37)
-  {
-    leftEna = 1;
-  }
-  if(keyd == "Z" || event.keyCode == 38)
-  {
-    upEna = 1;
-  }
-  if(keyd == "S" || event.keyCode == 40)
-  {
-    downEna = 1;
-  }
-  if(keyd == "D" || event.keyCode == 39)
-  {
-    rigthEna = 1;
-  }
-  if(event.keyCode == 32 && chevalEna == 1)
-  {
-    chevalEna = 0;
-    ch1.x = p1.x - 15;
-    ch1.v = 5;
-  p1.v=5;
-  }
-  if(event.keyCode == 27)
-  {
-    if(pauseEna)
-    {
-      pauseEna = 0;
-      icompPause = 0;
-      loadedAssets.audiofond.play();
-    loadedAssets.audiomus2.pause();
-    }
-    else if(!pauseEna){
-      pauseEna = 1;
-      loadedAssets.audiofond.pause();
-    loadedAssets.audiomus2.play();
-    }
-
-  }
 }
 
 function dessinerPersonnage(){
-
-p1.draw(ctx);
+  p1.draw(ctx);
 }
 
 function dessinerCheval(){
   ch1.draw(ctx);
 }
+function testSourisChoix(){
+  //return testSourisChoix :
+  //1 - Jouer
+  //2 - Reglage
+  if(mousePos.x >= 300 && mousePos.x <= 1400 && mousePos.y >= 100 && mousePos.y <= 700){
 
-function dessinerLesRectangles() {
-  tableauDesRectangles.forEach((r) => {
+    return 1;
+  }
+  else {
+    return 0;
+  }
 
-    r.drawjue(ctx);
-  })
+
+
 }
 
-function deplacerLesRectangles() {
-  tableauDesRectangles.forEach((r) => {
-    r.move();
-  });
-}
-function changerTaille() {
-  tableauDesRectangles.forEach((r) => {
-    r.changesize();
-  });
-}
-
-// function testeCollisionAvecMurs() {
-//   tableauDesRectangles.forEach((r) => {
-//     if(((r.x+r.l) > lc) || (r.x < 0)) 
-//     r.vx = -r.vx;
-    
-//      if(((r.y+r.h) > hc) || (r.y < 0)) 
-//     r.vy = -r.vy;
-//   });
-    
-// }
 let icompdemarre = 0;
-function animeDemarre(){
- 
+let varSourisChoix = 0;
+function animeChoix(){
+  //return testSourisChoix :
+  //1 - Jouer
+  //2 - Reglage
 
-  if(icompdemarre <= 1){
-    ctx.clearRect(0, 0, lc, hc);
-  ctx.fillStyle = "rgba(220, 20, 20, " + icompdemarre + ")";
-    ctx.fillRect(0,0,lc,hc);
-    ctx.drawImage(loadedAssets.logords, lc/2 - 300,hc/2 - 130 , 600, 261);
-  }
-  if(icompdemarre > 1 && icompdemarre <= 2.2 )
-  {
-    ctx.clearRect(0, 0, lc, hc);
-    ctx.fillStyle = "rgba(220, 20, 20, 1)";
-    ctx.fillRect(0,0,lc,hc);
-    ctx.drawImage(loadedAssets.logords, lc/2 - 300, ((-200*icompdemarre +600) - 130) , 600, 261);
-  }
-  if (icompdemarre >= 3) {
-    fenetre1Ena = 0;
+  ctx.clearRect(0, 0, lc, hc);
+  ctx.fillStyle = "rgba(220, 20, 20, 1)";
+  ctx.fillRect(0,0,lc,hc);
+  ctx.drawImage(loadedAssets.logords, lc/2 - 300, 30 , 600, 261);
+  ctx.font="65px Courier New";
+  ctx.fillStyle = "black";
+  ctx.fillText("JOUER",lc/2-96,5*hc/10);
+  ctx.font="65px Courier New";
+  ctx.fillStyle = "black";
+  ctx.fillText("REGLAGE",lc/2-131,6*hc/10);
+
+  //aJouer.draw(ctx);
+
+  
+
+  if(varSourisChoix == 1){
+    console.log("Demarrage Jeu");
+    loadedAssets.audiomus.pause();
+    loadedAssets.audiofond.play();
     requestAnimationFrame(anime);
+    fenetre2Ena = 0;
+    pauseEna = 0;
   }
 
 
+  if(fenetre2Ena){
+    requestAnimationFrame(animeChoix);
+
+  }
+
+// A REACTIVER PAUSEENA
+    //
+    //
+    //  
+//     fenetre1Ena = 0;
+// loadedAssets.audiofond.play();
+//     requestAnimationFrame(anime);
 
 
+}
 
-icompdemarre += 0.01;
-if(fenetre1Ena)
-requestAnimationFrame(animeDemarre);
+function animeDemarre(){
+//ANIMATION DE DEMARRAGE
+if(icompdemarre <= 1){
+  ctx.clearRect(0, 0, lc, hc);
+  ctx.drawImage(loadedAssets.logords, lc/2 - 300,hc/2 - 130 , 600, 261);
+}
+
+if(icompdemarre > 1 && icompdemarre <= 2){
+  ctx.clearRect(0, 0, lc, hc);
+  ctx.fillStyle = "rgba(220, 20, 20, " + (icompdemarre-1) + ")";
+  ctx.fillRect(0,0,lc,hc);
+  ctx.drawImage(loadedAssets.logords, lc/2 - 300,hc/2 - 130 , 600, 261);
+}
+if(icompdemarre > 2 && icompdemarre <= 3.2 )
+{
+  ctx.clearRect(0, 0, lc, hc);
+  ctx.fillStyle = "rgba(220, 20, 20, 1)";
+  ctx.fillRect(0,0,lc,hc);
+  ctx.drawImage(loadedAssets.logords, lc/2 - 300, ((-200*icompdemarre +800) - 130) , 600, 261);
+}
+
+if (icompdemarre >= 3.2) {
+  console.log("fenetre Choix");
+  loadedAssets.audiomus.play();
+  
+  icompdemarreEna = 0;
+fenetre1Ena = 0;
+requestAnimationFrame(animeChoix);
+}
+
+if(icompdemarreEna)
+  icompdemarre += 0.01;
+
+if(fenetre1Ena){
+  requestAnimationFrame(animeDemarre);
+
+}
 }
 
 let icomp = 0;
@@ -612,16 +539,13 @@ let icompPause = 0;
 
 function anime() {
   if (pauseEna) {
-    
-    //ctx.clearRect(0, 0, lc, hc);
-if(icompPause <= 8){
-   
-    ctx.fillStyle = "rgba(220, 84, 44, 0.1)";
+    if(icompPause <= 8){
+      ctx.fillStyle = "rgba(220, 84, 44, 0.1)";
     //ctx.fillStyle = "rgba(200, 75, 37, 0.1)";
     //ctx.fillStyle = "rgba(165, 25, 25, 0.1)";
     ctx.fillRect(0,0,lc,hc);
   }
-if(icompPause == 9)
+  if(icompPause == 9)
   {
     ctx.font="65px Courier New";
     ctx.fillStyle = "black";
@@ -632,67 +556,52 @@ if(icompPause == 9)
 
   }
 
-    icompPause +=1;
+  icompPause +=1;
 
 
 
-  }
+}
 else {
+  ctx.clearRect(0, 0, lc, hc);
+  ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
+  detectMur();
 
-
-
-    ctx.clearRect(0, 0, lc, hc);
-
- 
-    ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
-  
-
-  
-
-    detectMur();
-
-if(mousePos !== undefined) {
-  // tableauDesRectangles.forEach((r) => {
-  //   r.suitsouris(mousePos);
-  // })
+  if(mousePos !== undefined) {
   p1.suitsouris(mousePos);
   if (chevalEna)
-  ch1.suitsouris(mousePos);
+    ch1.suitsouris(mousePos);
 }
 
-
 //gerer les mouvements
-    mouvementJoueur();
-    if (chevalEna)
-    {
-    mouvementCheval();
-  }
-  deplacerLesBalles(); 
+mouvementJoueur();
+if (chevalEna)
+{
+  mouvementCheval();
+}
+deplacerLesBalles(); 
 
 
 //dessiner les personnges
-
-
-    dessinerLesBalles();  
-    dessinerCheval(); 
-    dessinerPersonnage();
+dessinerLesBalles();  
+dessinerCheval(); 
+dessinerPersonnage();
     // ctx.drawImage(fond2, (-100 + (100 - p1.x/lc*100)), (-100 + (100 - p1.y/hc*100)), lc+200, hc+200);
     ctx.drawImage(loadedAssets.fond2, (-100 + ((Math.cos(icomp)*50)+50)), (-100 + ((Math.sin(icomp*0.7)*35)+35)), lc+200, hc+200);
     //ctx.drawImage(fond2, (-100 + ((Math.cos(icomp*1.2)*25)+50)), (-100 + ((Math.sin(icomp*1.3)*50)+35)), lc+200, hc+200);
     
-if(p1.x <= (ch1.x + 50) && p1.x >= (ch1.x - 50) && p1.y <= (ch1.y + 50) && p1.y >= (ch1.y - 50) && chevalEna == 0 && chevalApp == 0)
-{
-  chevalApp = 1;
-  ch1.x = p1.x;
-  ch1.y = p1.y;
-  chevalEna = 1;
-  ch1.v = 10;
-  p1.v=10;
-}
-if(p1.x >= (ch1.x + 50) || p1.x <= (ch1.x - 50) || p1.y >= (ch1.y + 50) || p1.y <= (ch1.y - 50) )
-{
-  chevalApp = 0;
-}    
+    if(p1.x <= (ch1.x + 50) && p1.x >= (ch1.x - 50) && p1.y <= (ch1.y + 50) && p1.y >= (ch1.y - 50) && chevalEna == 0 && chevalApp == 0)
+    {
+      chevalApp = 1;
+      ch1.x = p1.x;
+      ch1.y = p1.y;
+      chevalEna = 1;
+      ch1.v = 10;
+      p1.v=10;
+    }
+    if(p1.x >= (ch1.x + 50) || p1.x <= (ch1.x - 50) || p1.y >= (ch1.y + 50) || p1.y <= (ch1.y - 50) )
+    {
+      chevalApp = 0;
+    }    
     icomp += 0.015;
   }
   requestAnimationFrame(anime);
