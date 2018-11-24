@@ -88,16 +88,21 @@ function deplacerLesZombies(){
     r.move();
   });
 }
-
+var z = 0;
 function creerZombie(){
   //0,[0,800); [0,1400],0 ; 1400,[0,800];  [0,1400],800
   xAlea = Math.random() * 1501;
   yAlea = Math.random() * 801;
-  z1 = new Zombie(0, yAlea, 50, 50, "black", 0);
-  tableauDesZombies.push(z1); 
- // z2 = new Zombie(0, xAlea, 50, 50, "black", 0);
-  //tableauDesZombies.push(z2); 
-  //tableauDesZombies.push(z2); 
+  //zombie = new Zombie(0, yAlea, 50, 50, "black", 0);
+  //tableauDesZombies.push(z1); 
+  window['zombie'+z] = new Zombie(0, yAlea, 50, 50, "black", 0);
+  if (window['zombie'+z] != undefined){
+	  //alert("existe deja");
+	  z++;
+	  window['zombie'+z] = new Zombie(0, yAlea, 50, 50, "black", 0);
+	  console.log("zombie" + z);
+	  tableauDesZombies.push(window['zombie'+z]); 
+  }
   focus_page();
 }
 
@@ -117,8 +122,6 @@ class Balle {
       ctx.stroke();   
       ctx.fillStyle = "#FFCC33";
       ctx.fill();
-     
-
   }
    move() {
     this.x += this.vx*this.v;
@@ -139,7 +142,7 @@ function deplacerLesBalles(){
     r.move();
   });
 }
-
+var i = 0;
 function tirer(){
   
   //console.log(r1.x);
@@ -150,9 +153,18 @@ function tirer(){
   let bvy = Math.sin(ang + Math.PI) ;
   let bv = 15;
   
-  balle = new Balle(bx,by, bvx, bvy, bv);
+  
+  window['balle'+i] = balle = new Balle(bx,by, bvx, bvy, bv);
+  if (window['balle'+i] != undefined){
+	  //alert("existe deja");
+	  i++;
+	  window['balle'+i] = new Balle(bx,by, bvx, bvy, bv);
+	  console.log(i);
+	  tableauDesBalles.push(window['balle'+i]); 
+  }
+  
 
-  tableauDesBalles.push(balle); 
+  
   focus_page();
 }
 
@@ -353,7 +365,7 @@ window.onload = function () {
     creerPersonnages();
 	
     //creerCheval();
-	console.log(z1);
+	console.log(window['zombie'+z]);
 
   
     // Pour animation à 60 im/s
@@ -592,7 +604,9 @@ function changerTaille() {
 }
 
  function CollisionBalleAvecZombie(zombie) {
- tableauDesBalles.forEach((r) => {
+	
+	tableauDesBalles.forEach((r) => {
+	
      if(((r.x) <= zombie.x + 50 ) && ((r.y) <= zombie.y + 50 ) && ((r.x) >= zombie.x - 50 ) && ((r.y) >= zombie.y - 50 )) {
 		//console.log("tue");
 		tableauDesZombies.splice(zombie,1);
@@ -606,6 +620,7 @@ function changerTaille() {
     
  });
 }
+
 
 function anime() {
 
