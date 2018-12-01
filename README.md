@@ -10,10 +10,11 @@ Version la plus avancée dans : DeplacementJoueur_Panzera > index.html
 ### 4 niveaux composent le jeu : le dernier étant le plus difficile avec une multitude de zombies rapides et imprévisibles ! 
 
 ### Module permettant son développement :
-* Module lancement d'une partie. 
-* Module éléments : Création des éléments (armes, personnage,zombie ...)
-* Module bacteries : Apparition et destruction des zombies
+* Module lancement d'une partie. (fait)
+* Module éléments : Création des éléments (armes, personnage,zombie ...) (manque zombie)
+* Module zombies: Apparition et destruction des zombies (à peaufiner)
 * Module son : Diffusion d'un son lors de la destruction d'un zombie
-* Module déplacement : Gestion du déplacement du personnage et de la balle tirée. 
-* Module score : Comptabilisation du score.
-* Module fin de partie.
+* Module déplacement : Gestion du déplacement du personnage et de la balle tirée. (fait) 
+* Module score : Comptabilisation du score. (à faire)
+* Module niveau : A chaque fin de niveau, le jeu devient plus difficle car plus de zombie apparaissent avec une rapidité plus élevée. (à faire)
+* Module fin de partie. (à faire)
