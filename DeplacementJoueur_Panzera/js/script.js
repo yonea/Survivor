@@ -27,6 +27,119 @@ let icompdemarreEna = 1;
 //100 . 186
 //64.8 . 48.8
 
+document.onselectstart = new Function ("return false");
+
+class Zombie {
+
+constructor(x, y, w, h, c, angle) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.vitesse = 0.5;
+    this.color = c;
+    this.angle = angle || 0;
+    this.scale = 1;
+  }
+  
+  
+
+   draw(ctx) {
+    ctx.save();
+        // je le retaille
+    ctx.scale(this.scale, this.scale);
+    // On positionne le rectangle en changeant le repere
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    // recentrer un rectangle, on translate en négatif
+    // de sa demi largeur et sa demi hauteur
+    ctx.translate(-this.w/2, -this.h/2);
+    
+    ctx.fillStyle = this.color;
+    
+    ctx.fillRect(0, 0, this.w, this.h);
+    // les yeux
+    ctx.fillStyle="white";
+    ctx.fillRect(10, 10, 5, 5);
+    ctx.fillRect(30, 10, 5, 5);
+    ctx.restore();
+  }
+  
+   suitPersonnage(p1) {
+    // On va calculer l'angle entre l'objet courant
+    // (le rectangle et la souris)
+    let dx = this.x - p1.x;
+    let dy = this.y - p1.y;
+    this.angle = Math.atan2(dy,dx) -Math.PI/2;
+    //console.log(this.angle)
+  }
+  
+  move() {
+    let dist = distance(this.x, this.y, 10, 10);
+    if(dist > 5) {
+      this.x += this.vitesse * Math.sin(this.angle);
+      this.y -= this.vitesse * Math.cos(this.angle);
+      //console.log(this.angle);
+    }
+  }
+}
+
+function distance(x1, y1, x2, y2) {
+  return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+}
+
+
+let tableauDesZombies = [];
+
+
+function dessinerLesZombies(){
+  tableauDesZombies.forEach((r) => {
+    r.draw(ctx);
+  })
+}
+
+function deplacerLesZombies(){
+  tableauDesZombies.forEach((r) => {
+    r.move();
+  });
+}
+var z = 0;
+function creerZombie(){
+  //0,[0,800); [0,1400],0 ; 1400,[0,800];  [0,1400],800
+  xAlea = Math.random() * 1501;
+  yAlea = Math.random() * 801;
+  //zombie = new Zombie(0, yAlea, 50, 50, "black", 0);
+  //tableauDesZombies.push(z1); 
+  window['zombie'+z] = new Zombie(0, yAlea, 50, 50, "black", 0);
+  if (window['zombie'+z] != undefined){
+    //alert("existe deja");
+    z++;
+    window['zombie'+z] = new Zombie(0, yAlea, 50, 50, "black", 0);
+    console.log("zombie" + z);
+    tableauDesZombies.push(window['zombie'+z]); 
+  }
+  //focus_page();
+}
+
+
+ function CollisionBalleAvecZombie(zombie) {
+  
+  tableauDesBalles.forEach((r) => {
+  
+     if(((r.x) <= zombie.x + 50 ) && ((r.y) <= zombie.y + 50 ) && ((r.x) >= zombie.x - 50 ) && ((r.y) >= zombie.y - 50 )) {
+    //console.log("tue");
+    tableauDesZombies.splice(zombie,1);
+    //zombie.vitesse++;
+    tableauDesBalles.splice(r,1);
+    creerZombie();
+ }
+  //    if(((r.y+r.h) > hc) || (r.y < 0)) 
+  //   r.vy = -r.vy;
+  // });
+    
+ });
+}
+
 class ChoixI{
 
 constructor(x, y, color, texte) {
@@ -166,9 +279,9 @@ class Balle {
 
   draw(ctx){
     ctx.beginPath();
-    ctx.ellipse(this.x, this.y, 4, 4, 45 * Math.PI/180, 0, 2 * Math.PI);
+    ctx.ellipse(this.x, this.y, 3, 3, 45 * Math.PI/180, 0, 2 * Math.PI);
     ctx.stroke();   
-    ctx.fillStyle = "#FFCC33";
+    ctx.fillStyle = "yellow";
     ctx.fill();
 
 
@@ -258,6 +371,8 @@ function demarerJeu() {
     lc = canvas.width;
     hc = canvas.height;
     ctx = canvas.getContext("2d");
+    creerZombie();
+    creerZombie();
     creerPersonnages();
     creerChoix();
 
@@ -508,15 +623,15 @@ if(icompdemarre > 1 && icompdemarre <= 2){
   ctx.fillRect(0,0,lc,hc);
   ctx.drawImage(loadedAssets.logords, lc/2 - 300,hc/2 - 130 , 600, 261);
 }
-if(icompdemarre > 2 && icompdemarre <= 3.2 )
+if(icompdemarre > 2 && icompdemarre <= 2.6 )
 {
   ctx.clearRect(0, 0, lc, hc);
   ctx.fillStyle = "rgba(220, 20, 20, 1)";
   ctx.fillRect(0,0,lc,hc);
-  ctx.drawImage(loadedAssets.logords, lc/2 - 300, ((-200*icompdemarre +800) - 130) , 600, 261);
+  ctx.drawImage(loadedAssets.logords, lc/2 - 300, ((-400*icompdemarre +1200) - 130) , 600, 261);
 }
 
-if (icompdemarre >= 3.2) {
+if (icompdemarre >= 2.6) {
   console.log("fenetre Choix");
   loadedAssets.audiomus.play();
   
@@ -567,12 +682,18 @@ else {
   detectMur();
 
   if(mousePos !== undefined) {
+    tableauDesZombies.forEach((z) => {
+    z.suitPersonnage(p1);
+  z.move()
+  CollisionBalleAvecZombie(z);
+  });
   p1.suitsouris(mousePos);
   if (chevalEna)
     ch1.suitsouris(mousePos);
 }
 
 //gerer les mouvements
+deplacerLesZombies();
 mouvementJoueur();
 if (chevalEna)
 {
@@ -583,6 +704,7 @@ deplacerLesBalles();
 
 //dessiner les personnges
 dessinerLesBalles();  
+dessinerLesZombies();  
 dessinerCheval(); 
 dessinerPersonnage();
     // ctx.drawImage(fond2, (-100 + (100 - p1.x/lc*100)), (-100 + (100 - p1.y/hc*100)), lc+200, hc+200);

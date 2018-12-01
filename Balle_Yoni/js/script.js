@@ -23,7 +23,7 @@ constructor(x, y, w, h, c, angle) {
     this.y = y;
     this.w = w;
     this.h = h;
-    this.vitesse = 1.5;
+    this.vitesse = 0.5;
     this.color = c;
     this.angle = angle || 0;
     this.scale = 1;
