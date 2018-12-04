@@ -140,6 +140,24 @@ function creerZombie(){
  });
 }
 
+
+ function CollisionZombieAvecPersonnage() {
+  
+  tableauDesZombies.forEach((r) => {
+  
+    if(((r.x) <= p1.x + 50 ) && ((r.y) <= p1.y + 50 ) && ((r.x) >= p1.x - 50 ) && ((r.y) >= p1.y - 50 )) 
+	{
+    //console.log("tue");
+    //tableauDesZombies.splice(r,1);
+	delete p1;
+	console.log("perdu");
+    
+	}
+  
+    
+ });
+}
+
 class ChoixI{
 
 constructor(x, y, color, texte) {
@@ -150,19 +168,13 @@ constructor(x, y, color, texte) {
   }
 
   draw(ctx) {
-    ctx.font="65px Courier New";
+  ctx.font="65px Courier New";
   ctx.fillStyle = this.color;
   ctx.fillText(this.text,this.x,this.y);
-
   }
 
   changeColor(ctx){
-
-
   }
-
-
-
 
 }
 
@@ -278,14 +290,13 @@ class Balle {
   }
 
   draw(ctx){
-    ctx.beginPath();
-    ctx.ellipse(this.x, this.y, 3, 3, 45 * Math.PI/180, 0, 2 * Math.PI);
-    ctx.stroke();   
-    ctx.fillStyle = "yellow";
-    ctx.fill();
-
-
+  ctx.beginPath();
+  ctx.ellipse(this.x, this.y, 3, 3, 45 * Math.PI/180, 0, 2 * Math.PI);
+  ctx.stroke();   
+  ctx.fillStyle = "yellow";
+  ctx.fill();
   }
+  
   move() {
     this.x += this.vx*this.v;
     this.y += this.vy*this.v;
@@ -308,6 +319,7 @@ function deplacerLesBalles(){
 }
 
 function creerChoix(){
+	
 aJouer = new ChoixI(20, 400, "black", "Jouer"); 
 
 }
@@ -317,8 +329,7 @@ function creerCheval()
 
 }
 
-function creerPersonnages()
-{
+function creerPersonnages(){
  let l = 60;
  let h = 60;
  let x = Math.random() * (lc - 60);
@@ -355,8 +366,6 @@ function onclick_page(){
   }
 
   varSourisChoix = testSourisChoix();
-
-
 }
 
 
@@ -402,78 +411,82 @@ function onmousemove_page(event){
 }
 
 function onkeyd_page(event){
+	if(window.event)
+		event = window.event;
 
- if(window.event)
-  event = window.event;
+	keyd = String.fromCharCode(event.keyCode);
 
-keyd = String.fromCharCode(event.keyCode);
+	if(keyd == "Q" || event.keyCode == 37)
+	{
+		leftEna = 1;
+	}
+	
+	if(keyd == "Z" || event.keyCode == 38)
+	{
+		upEna = 1;
+	}
+	
+	if(keyd == "S" || event.keyCode == 40)
+	{
+		downEna = 1;
+	}
+	
+	if(keyd == "D" || event.keyCode == 39)
+	{
+		rigthEna = 1;
+	}
 
-if(keyd == "Q" || event.keyCode == 37)
-{
-  leftEna = 1;
-}
-if(keyd == "Z" || event.keyCode == 38)
-{
-  upEna = 1;
-}
-if(keyd == "S" || event.keyCode == 40)
-{
-  downEna = 1;
-}
-if(keyd == "D" || event.keyCode == 39)
-{
-  rigthEna = 1;
-}
+	if(event.keyCode == 32 && chevalEna == 1)
+	{
+		//DESCENDRE CHEVAL
+		chevalEna = 0;
+		ch1.x = p1.x - 15;
+		ch1.v = 5;
+		p1.v=5;
+	}
 
-if(event.keyCode == 32 && chevalEna == 1)
-{
-  //DESCENDRE CHEVAL
-  chevalEna = 0;
-  ch1.x = p1.x - 15;
-  ch1.v = 5;
-  p1.v=5;
-}
-
-if(event.keyCode == 27)
-{
-  //GESTION DE LA PAUSE
-  if(pauseEna)
-  {
-    pauseEna = 0;
-    icompPause = 0;
-    loadedAssets.audiofond.play();
-    loadedAssets.audiomus2.pause();
-  }
-  else if(!pauseEna){
-    pauseEna = 1;
-    loadedAssets.audiofond.pause();
-    loadedAssets.audiomus2.play();
-  }
-}
+	if(event.keyCode == 27)
+	{
+		//GESTION DE LA PAUSE
+		if(pauseEna)
+		{
+			pauseEna = 0;
+			icompPause = 0;
+			loadedAssets.audiofond.play();
+			loadedAssets.audiomus2.pause();
+		}
+		else if(!pauseEna)
+		{
+			pauseEna = 1;
+			loadedAssets.audiofond.pause();
+			loadedAssets.audiomus2.play();
+		}
+	}
 }
 
 function onkeyu_page(event)
 {
- if(window.event)
-  event = window.event;
-keyu = String.fromCharCode(event.keyCode);
+	if(window.event)
+		event = window.event;
+	
+	keyu = String.fromCharCode(event.keyCode);
 
-if(keyu == "Q" || event.keyCode == 37)
-{
-  leftEna = 0;
-  }
-  if(keyu == "Z" || event.keyCode == 38)
-  {
-    upEna = 0;
-  }
-  if(keyu == "S" || event.keyCode == 40)
-  {
-    downEna = 0;
-  }
-  if(keyu == "D" || event.keyCode == 39)
-  {
-    rigthEna = 0;
-  }  
+	if(keyu == "Q" || event.keyCode == 37)
+	{
+		leftEna = 0;
+	}
+	if(keyu == "Z" || event.keyCode == 38)
+	{
+		upEna = 0;
+	}
+	if(keyu == "S" || event.keyCode == 40)
+	{
+		downEna = 0;
+	}
+	if(keyu == "D" || event.keyCode == 39)
+	{
+		rigthEna = 0;
+	}  
 }
 
 function mouvementJoueur()
@@ -612,101 +625,94 @@ function animeChoix(){
 
 function animeDemarre(){
 //ANIMATION DE DEMARRAGE
-if(icompdemarre <= 1){
-  ctx.clearRect(0, 0, lc, hc);
-  ctx.drawImage(loadedAssets.logords, lc/2 - 300,hc/2 - 130 , 600, 261);
-}
+	if(icompdemarre <= 1){
+	  ctx.clearRect(0, 0, lc, hc);
+	  ctx.drawImage(loadedAssets.logords, lc/2 - 300,hc/2 - 130 , 600, 261);
+	}
 
-if(icompdemarre > 1 && icompdemarre <= 2){
-  ctx.clearRect(0, 0, lc, hc);
-  ctx.fillStyle = "rgba(220, 20, 20, " + (icompdemarre-1) + ")";
-  ctx.fillRect(0,0,lc,hc);
-  ctx.drawImage(loadedAssets.logords, lc/2 - 300,hc/2 - 130 , 600, 261);
-}
-if(icompdemarre > 2 && icompdemarre <= 2.6 )
-{
-  ctx.clearRect(0, 0, lc, hc);
-  ctx.fillStyle = "rgba(220, 20, 20, 1)";
-  ctx.fillRect(0,0,lc,hc);
-  ctx.drawImage(loadedAssets.logords, lc/2 - 300, ((-400*icompdemarre +1200) - 130) , 600, 261);
-}
+	if(icompdemarre > 1 && icompdemarre <= 2){
+	  ctx.clearRect(0, 0, lc, hc);
+	  ctx.fillStyle = "rgba(220, 20, 20, " + (icompdemarre-1) + ")";
+	  ctx.fillRect(0,0,lc,hc);
+	  ctx.drawImage(loadedAssets.logords, lc/2 - 300,hc/2 - 130 , 600, 261);
+	}
+	if(icompdemarre > 2 && icompdemarre <= 2.6 )
+	{
+	  ctx.clearRect(0, 0, lc, hc);
+	  ctx.fillStyle = "rgba(220, 20, 20, 1)";
+	  ctx.fillRect(0,0,lc,hc);
+	  ctx.drawImage(loadedAssets.logords, lc/2 - 300, ((-400*icompdemarre +1200) - 130) , 600, 261);
+	}
 
-if (icompdemarre >= 2.6) {
-  console.log("fenetre Choix");
-  loadedAssets.audiomus.play();
-  
-  icompdemarreEna = 0;
-fenetre1Ena = 0;
-requestAnimationFrame(animeChoix);
-}
+	if (icompdemarre >= 2.6) {
+		console.log("fenetre Choix");
+		loadedAssets.audiomus.play();
+		icompdemarreEna = 0;
+		fenetre1Ena = 0;
+		requestAnimationFrame(animeChoix);
+	}
 
-if(icompdemarreEna)
-  icompdemarre += 0.01;
+	if(icompdemarreEna)
+		icompdemarre += 0.01;
 
-if(fenetre1Ena){
-  requestAnimationFrame(animeDemarre);
-
-}
+	if(fenetre1Ena){
+		requestAnimationFrame(animeDemarre);
+	}
 }
 
 let icomp = 0;
 let icompPause = 0;
 
 function anime() {
-  if (pauseEna) {
-    if(icompPause <= 8){
-      ctx.fillStyle = "rgba(220, 84, 44, 0.1)";
-    //ctx.fillStyle = "rgba(200, 75, 37, 0.1)";
-    //ctx.fillStyle = "rgba(165, 25, 25, 0.1)";
-    ctx.fillRect(0,0,lc,hc);
-  }
-  if(icompPause == 9)
-  {
-    ctx.font="65px Courier New";
-    ctx.fillStyle = "black";
+	if (pauseEna){
+		if(icompPause <= 8){
+		ctx.fillStyle = "rgba(220, 84, 44, 0.1)";
+		//ctx.fillStyle = "rgba(200, 75, 37, 0.1)";
+		//ctx.fillStyle = "rgba(165, 25, 25, 0.1)";
+		ctx.fillRect(0,0,lc,hc);
+		}
+	if(icompPause == 9){
+		ctx.font="65px Courier New";
+		ctx.fillStyle = "black";
 
-    ctx.fillText("PAUSE",lc/2-90,9*hc/10);
-    ctx.drawImage(loadedAssets.logords, lc/2 - 300,hc/15 , 600, 261);
+		ctx.fillText("PAUSE",lc/2-90,9*hc/10);
+		ctx.drawImage(loadedAssets.logords, lc/2 - 300,hc/15 , 600, 261);
+	}
 
+	icompPause +=1;
+	}
+	else {
+		ctx.clearRect(0, 0, lc, hc);
+		ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
+		detectMur();
 
-  }
+	if(mousePos !== undefined) {
+		tableauDesZombies.forEach((z) => {
+		z.suitPersonnage(p1);
+		z.move()
+		CollisionBalleAvecZombie(z);
+		});
+		CollisionZombieAvecPersonnage();
+		p1.suitsouris(mousePos);
+		if (chevalEna)
+			ch1.suitsouris(mousePos);
+	}
 
-  icompPause +=1;
-
-
-
-}
-else {
-  ctx.clearRect(0, 0, lc, hc);
-  ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
-  detectMur();
-
-  if(mousePos !== undefined) {
-    tableauDesZombies.forEach((z) => {
-    z.suitPersonnage(p1);
-  z.move()
-  CollisionBalleAvecZombie(z);
-  });
-  p1.suitsouris(mousePos);
-  if (chevalEna)
-    ch1.suitsouris(mousePos);
-}
-
-//gerer les mouvements
-deplacerLesZombies();
-mouvementJoueur();
-if (chevalEna)
-{
-  mouvementCheval();
-}
-deplacerLesBalles(); 
+	//gerer les mouvements
+	deplacerLesZombies();
+	mouvementJoueur();
+	if (chevalEna)
+	{
+	  mouvementCheval();
+	}
+	deplacerLesBalles(); 
 
 
-//dessiner les personnges
-dessinerLesBalles();  
-dessinerLesZombies();  
-dessinerCheval(); 
-dessinerPersonnage();
+	//dessiner les personnges
+	dessinerLesBalles();  
+	dessinerLesZombies();  
+	dessinerCheval(); 
+	dessinerPersonnage();
     // ctx.drawImage(fond2, (-100 + (100 - p1.x/lc*100)), (-100 + (100 - p1.y/hc*100)), lc+200, hc+200);
     ctx.drawImage(loadedAssets.fond2, (-100 + ((Math.cos(icomp)*50)+50)), (-100 + ((Math.sin(icomp*0.7)*35)+35)), lc+200, hc+200);
     //ctx.drawImage(fond2, (-100 + ((Math.cos(icomp*1.2)*25)+50)), (-100 + ((Math.sin(icomp*1.3)*50)+35)), lc+200, hc+200);
