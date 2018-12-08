@@ -150,6 +150,7 @@ function creerZombie(){
     //console.log("tue");
     //tableauDesZombies.splice(r,1);
 	delete p1;
+	//ecran fin de partie à ajouter
 	console.log("perdu");
     
 	}
