@@ -104,40 +104,106 @@ function deplacerLesZombies(){
   });
 }
 var z = 0;
-function creerZombie(){
+function creerZombie(i){
   //0,[0,800); [0,1400],0 ; 1400,[0,800];  [0,1400],800
   xAlea = Math.random() * 1501;
   yAlea = Math.random() * 801;
-  //zombie = new Zombie(0, yAlea, 50, 50, "black", 0);
-  //tableauDesZombies.push(z1); 
-  window['zombie'+z] = new Zombie(0, yAlea, 50, 50, "black", 0);
-  if (window['zombie'+z] != undefined){
-    //alert("existe deja");
-    z++;
-    window['zombie'+z] = new Zombie(0, yAlea, 50, 50, "black", 0);
-    console.log("zombie" + z);
-    tableauDesZombies.push(window['zombie'+z]); 
+  
+  if(stage1){
+	  
+		window['zombie'+i] = new Zombie(0, yAlea, 50, 50, "black", 0);
+		window['zombie'+i].name = 'zombie'+i;
+		tableauDesZombies.push(window['zombie'+i]); 
+	
   }
-  //focus_page();
+  if(stage2){
+		console.log("stage2");
+		window['zombie'+(i)] = new Zombie(0, yAlea, 50, 50, "black", 0);
+		window['zombie'+i].name = 'zombie'+i;
+		window['zombie'+(i+1)] = new Zombie(xAlea, 0, 50, 50, "black", 0);
+		window['zombie'+(i+1)].name = 'zombie'+(i+1);
+		tableauDesZombies.push(window['zombie'+i]); 
+		tableauDesZombies.push(window['zombie'+(i+1)]); 
+		console.log("nom"+tableauDesZombies[0].name);
+  }
+  if(stage3){
+	 
+		window['zombie'+i] = new Zombie(0, yAlea, 50, 50, "black", 0);
+		window['zombie'+(i+1)] = new Zombie(xAlea, 0, 50, 50, "black", 0);
+		window['zombie'+(i+2)] = new Zombie(1400, yAlea, 50, 50, "black", 0);
+		tableauDesZombies.push(window['zombie'+i]); 
+		tableauDesZombies.push(window['zombie'+(i+1)]); 
+		tableauDesZombies.push(window['zombie'+(i+2)]); 
+	 
+  }
+  if(stage4){
+		 
+		window['zombie'+i] = new Zombie(0, yAlea, 50, 50, "black", 0);
+		window['zombie'+(i+1)] = new Zombie(xAlea, 0, 50, 50, "black", 0);
+		window['zombie'+(i+2)] = new Zombie(1400, yAlea, 50, 50, "black", 0);
+		window['zombie'+(i+3)] = new Zombie(xAlea, 800, 50, 50, "black", 0);		
+		tableauDesZombies.push(window['zombie'+i]); 
+		tableauDesZombies.push(window['zombie'+(i+1)]); 
+		tableauDesZombies.push(window['zombie'+(i+2)]); 
+		tableauDesZombies.push(window['zombie'+(i+3)]); 
+		
+  }
 }
 
 
- function CollisionBalleAvecZombie(zombie) {
+ function CollisionBalleAvecZombie(zombie,i, balle, j) {
   
-  tableauDesBalles.forEach((r) => {
+  //tableauDesBalles.forEach((r) => {
+  let r = balle;
   
+  //console.log("pp" + r.x);
      if(((r.x) <= zombie.x + 50 ) && ((r.y) <= zombie.y + 50 ) && ((r.x) >= zombie.x - 50 ) && ((r.y) >= zombie.y - 50 )) {
     //console.log("tue");
-    tableauDesZombies.splice(zombie,1);
+		if(i==0){
+			console.log(zombie.name + "tué");
+			tableauDesZombies.splice(i,1);
+		}
+		else{
+			console.log(zombie.name + "tué");
+			tableauDesZombies.splice(i,1);
+		}
     //zombie.vitesse++;
-    tableauDesBalles.splice(r,1);
-    creerZombie();
- }
+		if(j==0){
+			tableauDesBalles.splice(j,1);
+			console.log("avec la balle " + r.name);
+		}
+		else{
+			tableauDesBalles.splice(j,1);
+			console.log("avec la balle " + r.name);
+		}	
+  
+	//console.log(tableauDesZombies[0]);
+	
+	
+	}
   //    if(((r.y+r.h) > hc) || (r.y < 0)) 
   //   r.vy = -r.vy;
   // });
     
- });
+ //});
+ 
+ if(stage1 && tableauDesZombies.length == 0)
+	{
+		// for(let i = 1; i<10; i++){
+			// Stage1();
+		// }
+		Stage2();
+	}
+	
+	if(stage2 && tableauDesZombies.length == 0)
+	{
+		Stage3();
+	}
+	if(stage3 && tableauDesZombies.length == 0)
+	{
+		Stage4();
+	}
+	
 }
 
 
@@ -288,6 +354,7 @@ class Balle {
     this.vx = vx;
     this.vy = vy;
     this.v = v;
+	this.name = "balle";
   }
 
   draw(ctx){
@@ -348,16 +415,27 @@ function creerPersonnages(){
  ch1 = new ChevalI(x, y, l, h, v, vy,a)
 
 }
-
+var l =1;
 function tirer(){
   let bx = p1.x;
   let by = p1.y;
   let ang = Math.atan2((by - mousePos.y),(bx - mousePos.x));
   let bvx = Math.cos(ang + Math.PI) ;
   let bvy = Math.sin(ang + Math.PI) ;
-  let bv = 25;
-  let balle = new Balle(bx,by, bvx, bvy, bv);
-  tableauDesBalles.push(balle); 
+  let bv = 20;
+ 
+  
+  //let balle = new Balle(bx,by, bvx, bvy, bv);
+  if(window['balle'+l] != undefined){
+	  l++;
+	  window['balle'+l] = new Balle(bx,by, bvx, bvy, bv);
+	  window['balle'+l].name = 'balle'+l;
+	  tableauDesBalles.push(window['balle'+l]); 
+  }else{
+	  window['balle'+l] = new Balle(bx,by, bvx, bvy, bv);
+	  window['balle'+l].name = 'balle'+l;
+	  tableauDesBalles.push(window['balle'+l]); 
+  }
   loadedAssets.audio.play();
 }
 
@@ -381,11 +459,10 @@ function demarerJeu() {
     lc = canvas.width;
     hc = canvas.height;
     ctx = canvas.getContext("2d");
-    creerZombie();
-    creerZombie();
+    
     creerPersonnages();
     creerChoix();
-
+	Stage1();
     //creerCheval();
     //requestAnimationFrame(anime);
     //pauseEna = 0;
@@ -572,8 +649,31 @@ function testSourisChoix(){
     return 0;
   }
 
+}
 
+var stage1;
+var stage2;
+var stage3;
+var stage4;
 
+function Stage1(){
+	stage1= true;
+	creerZombie(1);
+}
+function Stage2(){
+	stage1 = false;
+	stage2 = true;
+	creerZombie(1);
+}
+function Stage3(){
+	stage2 = false;
+	stage3 = true;
+	creerZombie(1);
+}
+function Stage4(){
+	stage3 = false;
+	stage4 = true;
+	creerZombie(1);
 }
 
 let icompdemarre = 0;
@@ -688,11 +788,18 @@ function anime() {
 		detectMur();
 
 	if(mousePos !== undefined) {
-		tableauDesZombies.forEach((z) => {
-		z.suitPersonnage(p1);
-		z.move()
-		CollisionBalleAvecZombie(z);
-		});
+		
+		for(let j = 0; j< tableauDesBalles.length; j++){
+			let ba = tableauDesBalles[j];
+			
+			for(let i = 0; i< tableauDesZombies.length; i++){
+				let zo = tableauDesZombies[i];
+				zo.suitPersonnage(p1);
+				zo.move();
+				CollisionBalleAvecZombie(zo, i, ba, j);
+			}
+		}
+		
 		CollisionZombieAvecPersonnage();
 		p1.suitsouris(mousePos);
 		if (chevalEna)
