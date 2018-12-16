@@ -794,14 +794,17 @@ function anime() {
 			
 			for(let i = 0; i< tableauDesZombies.length; i++){
 				let zo = tableauDesZombies[i];
-				zo.suitPersonnage(p1);
-				zo.move();
 				CollisionBalleAvecZombie(zo, i, ba, j);
 			}
 		}
-		
+		for(let i = 0; i< tableauDesZombies.length; i++){
+				let zo = tableauDesZombies[i];
+				zo.suitPersonnage(p1);
+				zo.move();
+		}
 		CollisionZombieAvecPersonnage();
 		p1.suitsouris(mousePos);
+		
 		if (chevalEna)
 			ch1.suitsouris(mousePos);
 	}

@@ -155,12 +155,9 @@ function creerZombie(i){
 
 function CollisionBalleAvecZombie(zombie,i, balle, j) {
   
-  //tableauDesBalles.forEach((r) => {
-  let r = balle;
+	let r = balle;
   
-  //console.log("pp" + r.x);
-     if(((r.x) <= zombie.x + 50 ) && ((r.y) <= zombie.y + 50 ) && ((r.x) >= zombie.x - 50 ) && ((r.y) >= zombie.y - 50 )) {
-    //console.log("tue");
+	if(((r.x) <= zombie.x + 50 ) && ((r.y) <= zombie.y + 50 ) && ((r.x) >= zombie.x - 50 ) && ((r.y) >= zombie.y - 50 )) {
 		if(i==0){
 			console.log(zombie.name + "tué");
 			tableauDesZombies.splice(i,1);
@@ -169,7 +166,6 @@ function CollisionBalleAvecZombie(zombie,i, balle, j) {
 			console.log(zombie.name + "tué");
 			tableauDesZombies.splice(i,1);
 		}
-    //zombie.vitesse++;
 		if(j==0){
 			tableauDesBalles.splice(j,1);
 			console.log("avec la balle " + r.name);
@@ -177,25 +173,17 @@ function CollisionBalleAvecZombie(zombie,i, balle, j) {
 		else{
 			tableauDesBalles.splice(j,1);
 			console.log("avec la balle " + r.name);
-		}	
-  
-	//console.log(tableauDesZombies[0]);
-	
-	
+		}		
 	}
-  //    if(((r.y+r.h) > hc) || (r.y < 0)) 
-  //   r.vy = -r.vy;
-  // });
-    
- //});
- 
- if(stage1 && tableauDesZombies.length == 0)
+
+
+	
+	
+	if(stage1 && tableauDesZombies.length == 0)
 	{
-		// for(let i = 1; i<10; i++){
-			// Stage1();
-		// }
 		Stage2();
 	}
+	
 	
 	if(stage2 && tableauDesZombies.length == 0)
 	{
