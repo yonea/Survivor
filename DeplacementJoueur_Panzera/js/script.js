@@ -28,7 +28,7 @@ let icompdemarreEna = 1;
 //64.8 . 48.8
 
 document.onselectstart = new Function ("return false");
-
+var vitesseZombie=0.5;
 class Zombie {
 
 constructor(x, y, w, h, c, angle) {
@@ -36,7 +36,7 @@ constructor(x, y, w, h, c, angle) {
     this.y = y;
     this.w = w;
     this.h = h;
-    this.vitesse = 0.5;
+    this.vitesse = vitesseZombie;
     this.color = c;
     this.angle = angle || 0;
     this.scale = 1;
@@ -106,46 +106,73 @@ function deplacerLesZombies(){
 var z = 0;
 function creerZombie(i){
   //0,[0,800); [0,1400],0 ; 1400,[0,800];  [0,1400],800
-  xAlea = Math.random() * 1501;
-  yAlea = Math.random() * 801;
+  xAlea = Math.random() * 1500;
+  yAlea = Math.random() * 800;
   
-  if(stage1){
-	  
-		window['zombie'+i] = new Zombie(0, yAlea, 50, 50, "black", 0);
-		window['zombie'+i].name = 'zombie'+i;
-		tableauDesZombies.push(window['zombie'+i]); 
-	
-  }
-  if(stage2){
-		console.log("stage2");
-		window['zombie'+(i)] = new Zombie(0, yAlea, 50, 50, "black", 0);
-		window['zombie'+i].name = 'zombie'+i;
-		window['zombie'+(i+1)] = new Zombie(xAlea, 0, 50, 50, "black", 0);
-		window['zombie'+(i+1)].name = 'zombie'+(i+1);
-		tableauDesZombies.push(window['zombie'+i]); 
-		tableauDesZombies.push(window['zombie'+(i+1)]); 
-		console.log("nom"+tableauDesZombies[0].name);
-  }
-  if(stage3){
-	 
-		window['zombie'+i] = new Zombie(0, yAlea, 50, 50, "black", 0);
-		window['zombie'+(i+1)] = new Zombie(xAlea, 0, 50, 50, "black", 0);
-		window['zombie'+(i+2)] = new Zombie(1400, yAlea, 50, 50, "black", 0);
-		tableauDesZombies.push(window['zombie'+i]); 
-		tableauDesZombies.push(window['zombie'+(i+1)]); 
-		tableauDesZombies.push(window['zombie'+(i+2)]); 
+	if(stage1){
+		for(let nbZ = 1; nbZ<i+1; nbZ++){
+			yAlea = Math.random() * 800;
+			window['zombie'+(nbZ)] = new Zombie(1, yAlea, 50, 50, "black", 0);
+			tableauDesZombies.push(window['zombie'+nbZ]); 		
+		}
+	}
+	if(stage2){
+		for(let nbZ = 1; nbZ<(i/2)+1; nbZ++){
+			yAlea = Math.random() * 800;
+			window['zombie'+(nbZ)] = new Zombie(1, yAlea, 50, 50, "black", 0);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}
+		for(let nbZ = (i/2)+1; nbZ<i+1; nbZ++){
+			xAlea = Math.random() * 1500;
+			window['zombie'+(nbZ)] = new Zombie(xAlea, 1, 50, 50, "black", 0);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}		
+		
+	}
+	if(stage3){
+		for(let nbZ = 1; nbZ<(i/3)+1; nbZ++){
+			yAlea = Math.random() * 800;
+			window['zombie'+(nbZ)] = new Zombie(1, yAlea, 50, 50, "black", 0);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}
+		for(let nbZ = (i/3)+1; nbZ<(i/3)*2+1; nbZ++){
+			xAlea = Math.random() * 1500;
+			window['zombie'+(nbZ)] = new Zombie(xAlea, 1, 50, 50, "black", 0);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}		
+		
+		for(let nbZ = (i/3)*2+1; nbZ<i+1; nbZ++){
+			yAlea = Math.random() * 1500;
+			window['zombie'+(nbZ)] = new Zombie(1400, yAlea, 50, 50, "black", 0);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}	
+		
 	 
   }
   if(stage4){
+		for(let nbZ = 1; nbZ<(i/4)+1; nbZ++){
+			yAlea = Math.random() * 800;
+			window['zombie'+(nbZ)] = new Zombie(0, yAlea, 50, 50, "black", 0);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}
+		for(let nbZ = (i/4)+1; nbZ<(i/4)*2+1; nbZ++){
+			xAlea = Math.random() * 1500;
+			window['zombie'+(nbZ)] = new Zombie(xAlea, 0, 50, 50, "black", 0);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}		
+		
+		for(let nbZ = (i/4)*2+1; nbZ<(i/4)*3+1; nbZ++){
+			yAlea = Math.random() * 1500;
+			window['zombie'+(nbZ)] = new Zombie(1400, yAlea, 50, 50, "black", 0);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}
+		
+		for(let nbZ = (i/4)*3+1; nbZ<i+1; nbZ++){
+			xAlea = Math.random() * 1500;
+			window['zombie'+(nbZ)] = new Zombie(xAlea, 800, 50, 50, "black", 0);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}
 		 
-		window['zombie'+i] = new Zombie(0, yAlea, 50, 50, "black", 0);
-		window['zombie'+(i+1)] = new Zombie(xAlea, 0, 50, 50, "black", 0);
-		window['zombie'+(i+2)] = new Zombie(1400, yAlea, 50, 50, "black", 0);
-		window['zombie'+(i+3)] = new Zombie(xAlea, 800, 50, 50, "black", 0);		
-		tableauDesZombies.push(window['zombie'+i]); 
-		tableauDesZombies.push(window['zombie'+(i+1)]); 
-		tableauDesZombies.push(window['zombie'+(i+2)]); 
-		tableauDesZombies.push(window['zombie'+(i+3)]); 
 		
   }
 }
@@ -160,21 +187,21 @@ function creerZombie(i){
      if(((r.x) <= zombie.x + 50 ) && ((r.y) <= zombie.y + 50 ) && ((r.x) >= zombie.x - 50 ) && ((r.y) >= zombie.y - 50 )) {
     //console.log("tue");
 		if(i==0){
-			console.log(zombie.name + "tué");
+			//console.log(zombie.name + "tué");
 			tableauDesZombies.splice(i,1);
 		}
 		else{
-			console.log(zombie.name + "tué");
+			//console.log(zombie.name + "tué");
 			tableauDesZombies.splice(i,1);
 		}
-    //zombie.vitesse++;
+    
 		if(j==0){
 			tableauDesBalles.splice(j,1);
-			console.log("avec la balle " + r.name);
+			//console.log("avec la balle " + r.name);
 		}
 		else{
 			tableauDesBalles.splice(j,1);
-			console.log("avec la balle " + r.name);
+			//console.log("avec la balle " + r.name);
 		}	
   
 	//console.log(tableauDesZombies[0]);
@@ -187,11 +214,9 @@ function creerZombie(i){
     
  //});
  
- if(stage1 && tableauDesZombies.length == 0)
+	if(stage1 && tableauDesZombies.length == 0)
 	{
-		// for(let i = 1; i<10; i++){
-			// Stage1();
-		// }
+		
 		Stage2();
 	}
 	
@@ -658,22 +683,26 @@ var stage4;
 
 function Stage1(){
 	stage1= true;
-	creerZombie(1);
+	
+	creerZombie(2);
 }
 function Stage2(){
 	stage1 = false;
 	stage2 = true;
-	creerZombie(1);
+	vitesseZombie++;
+	creerZombie(4);
 }
 function Stage3(){
 	stage2 = false;
 	stage3 = true;
-	creerZombie(1);
+	vitesseZombie++;
+	creerZombie(6);
 }
 function Stage4(){
 	stage3 = false;
 	stage4 = true;
-	creerZombie(1);
+	vitesseZombie++;
+	creerZombie(8);
 }
 
 let icompdemarre = 0;
