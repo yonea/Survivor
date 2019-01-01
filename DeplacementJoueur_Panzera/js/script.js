@@ -440,16 +440,18 @@ function creerPersonnages(){
  ch1 = new ChevalI(x, y, l, h, v, vy,a)
 
 }
-var l =1;
+var l = 0;
 function tirer(){
+  l++;
   let bx = p1.x;
   let by = p1.y;
   let ang = Math.atan2((by - mousePos.y),(bx - mousePos.x));
   let bvx = Math.cos(ang + Math.PI) ;
   let bvy = Math.sin(ang + Math.PI) ;
   let bv = 20;
- 
-  
+  if(l<6)
+  {
+  loadedAssets.audio.play();
   //let balle = new Balle(bx,by, bvx, bvy, bv);
   if(window['balle'+l] != undefined){
 	  l++;
@@ -460,8 +462,15 @@ function tirer(){
 	  window['balle'+l] = new Balle(bx,by, bvx, bvy, bv);
 	  window['balle'+l].name = 'balle'+l;
 	  tableauDesBalles.push(window['balle'+l]); 
+	  
+	  // 1370, 5, 18, 70
+	  // 1400, 5, 18, 70
+	  // 1430, 5, 18, 70
+	  // 1460, 5, 18, 70
+
   }
-  loadedAssets.audio.play();
+  }
+  
 }
 
 function onclick_page(){
@@ -488,6 +497,7 @@ function demarerJeu() {
     creerPersonnages();
     creerChoix();
 	Stage1();
+	
     //creerCheval();
     //requestAnimationFrame(anime);
     //pauseEna = 0;
@@ -495,6 +505,7 @@ function demarerJeu() {
     pauseEna = 1;
     loadedAssets.audiosound1.play();
     requestAnimationFrame(animeDemarre);  
+	recharger();
 }
 
 function onmousemove_page(event){
@@ -522,6 +533,10 @@ function onkeyd_page(event){
 	if(keyd == "Q" || event.keyCode == 37)
 	{
 		leftEna = 1;
+	}
+	if(keyd == "R" )
+	{ 
+		l=0;
 	}
 	
 	if(keyd == "Z" || event.keyCode == 38)
@@ -654,7 +669,41 @@ function detectMur()
       downEna = 0;
     }
 }
+function recharger(){
+//ctx.clearRect(1340, 5, 0, 200);
+if(l==4)
+//ctx.drawImage(loadedAssets.douille, 1340, 5, 18, 70);
+// ctx.drawImage(loadedAssets.douille, 1370, 5, 18, 70);
+// ctx.drawImage(loadedAssets.douille, 1400, 5, 18, 70);
+// ctx.drawImage(loadedAssets.douille, 1430, 5, 18, 70);
+ ctx.drawImage(loadedAssets.douille, 1460, 5, 18, 70);
+ else if(l==3){
+	ctx.drawImage(loadedAssets.douille, 1430, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1460, 5, 18, 70);
+ }
+ else if (l==2){
+	ctx.drawImage(loadedAssets.douille, 1400, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1430, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1460, 5, 18, 70);
+ }
+ else if(l==1){
+	ctx.drawImage(loadedAssets.douille, 1370, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1400, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1430, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1460, 5, 18, 70);
+ }
+ else if(l==0){
+	ctx.drawImage(loadedAssets.douille, 1340, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1370, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1400, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1430, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1460, 5, 18, 70);
+ }
+ else
+	 ctx.clearRect(1340, 5, 0, 200);
 
+	 
+}
 function dessinerPersonnage(){
   p1.draw(ctx);
 }
@@ -683,7 +732,6 @@ var stage4;
 
 function Stage1(){
 	stage1= true;
-	
 	creerZombie(2);
 }
 function Stage2(){
@@ -846,7 +894,7 @@ function anime() {
 	  mouvementCheval();
 	}
 	deplacerLesBalles(); 
-
+	recharger();
 
 	//dessiner les personnges
 	dessinerLesBalles();  

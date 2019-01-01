@@ -10,8 +10,8 @@ var assetsToLoadURLs = {
     audiofond: {url: './assets/windjs.mp3' , buffer: false, loop: true, volume: 0.1 },
     audiomus: {url: './assets/musiquejs.mp3' , buffer: false, loop: true, volume: 0.8 },
     audiomus2: {url: './assets/musiquejspause.mp3' , buffer: false, loop: true, volume: 0.8 },
-    audiosound1: {url: './assets/sound1js.mp3' , buffer: false, loop: false, volume: 0.4 }
-    
+    audiosound1: {url: './assets/sound1js.mp3' , buffer: false, loop: false, volume: 0.4 },
+    douille : { url: './assets/douille.png' }
     
     
     
