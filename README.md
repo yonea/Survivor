@@ -15,6 +15,6 @@ Version la plus avancée dans : DeplacementJoueur_Panzera > index.html
 * Module zombies: Apparition et destruction des zombies (à peaufiner)
 * Module son : Diffusion d'un son lors de la destruction d'un zombie
 * Module déplacement : Gestion du déplacement du personnage et de la balle tirée. (fait) 
-* Module score : Comptabilisation du score. (à faire)
-* Module niveau : A chaque fin de niveau, le jeu devient plus difficle car plus de zombie apparaissent avec une rapidité plus élevée. (à faire)
+* Module stock: Le joueur possède 5 balles afin d'éliminer les zombies. Si ce dernier en a plus il a la possibilité de recharger son stock, cependant il faut le faire vite avant que les zombies ne le rattrapent ! (à peaufiner)
+* Module niveau : A chaque fin de niveau, le jeu devient plus difficle car plus de zombie apparaissent avec une rapidité plus élevée. (fait)
 * Module fin de partie. (à faire)
