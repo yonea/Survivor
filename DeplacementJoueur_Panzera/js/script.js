@@ -443,6 +443,7 @@ function creerPersonnages(){
 var l = 0;
 function tirer(){
   l++;
+  console.log("l : " + l);
   let bx = p1.x;
   let by = p1.y;
   let ang = Math.atan2((by - mousePos.y),(bx - mousePos.x));
@@ -453,15 +454,11 @@ function tirer(){
   {
   loadedAssets.audio.play();
   //let balle = new Balle(bx,by, bvx, bvy, bv);
-  if(window['balle'+l] != undefined){
-	  l++;
+  
 	  window['balle'+l] = new Balle(bx,by, bvx, bvy, bv);
 	  window['balle'+l].name = 'balle'+l;
 	  tableauDesBalles.push(window['balle'+l]); 
-  }else{
-	  window['balle'+l] = new Balle(bx,by, bvx, bvy, bv);
-	  window['balle'+l].name = 'balle'+l;
-	  tableauDesBalles.push(window['balle'+l]); 
+  
 	  
 	  // 1370, 5, 18, 70
 	  // 1400, 5, 18, 70
@@ -469,7 +466,7 @@ function tirer(){
 	  // 1460, 5, 18, 70
 
   }
-  }
+  
   
 }
 
