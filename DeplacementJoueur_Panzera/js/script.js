@@ -10,6 +10,9 @@ let pauseEna = 0;
 let fenetre1Ena = 1;
 let fenetre2Ena = 1;
 let icompdemarreEna = 1;
+let idAlea;
+let zH, zL;
+let zAgr = 1.2;
 // var personnage = new Image();
 // personnage.src = "assets/personnage.png";
 // var cheval = new Image();
@@ -31,7 +34,7 @@ document.onselectstart = new Function ("return false");
 var vitesseZombie=0.5;
 class Zombie {
 
-constructor(x, y, w, h, c, angle) {
+constructor(x, y, w, h, c, angle, id) {
     this.x = x;
     this.y = y;
     this.w = w;
@@ -40,29 +43,94 @@ constructor(x, y, w, h, c, angle) {
     this.color = c;
     this.angle = angle || 0;
     this.scale = 1;
+    this.id = id || 1;
   }
   
   
 
-   draw(ctx) {
+  draw(ctx) {
+
+    switch(this.id) {
+
+    case 1:
+
+      zL = 73*zAgr;
+      zH = 76*zAgr;
+
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+      ctx.translate(-zL/2, -zH/2);
+      ctx.drawImage(loadedAssets.zombie1, 0, 0, zL, zH);
+      ctx.restore();
+    // code block
+    break;
+
+    case 2:
+
+    zL = 75*zAgr;
+    zH = 56*zAgr;
+
     ctx.save();
-        // je le retaille
-    ctx.scale(this.scale, this.scale);
-    // On positionne le rectangle en changeant le repere
     ctx.translate(this.x, this.y);
     ctx.rotate(this.angle);
-    // recentrer un rectangle, on translate en négatif
-    // de sa demi largeur et sa demi hauteur
-    ctx.translate(-this.w/2, -this.h/2);
-    
-    ctx.fillStyle = this.color;
-    
-    ctx.fillRect(0, 0, this.w, this.h);
-    // les yeux
-    ctx.fillStyle="white";
-    ctx.fillRect(10, 10, 5, 5);
-    ctx.fillRect(30, 10, 5, 5);
+    ctx.translate(-zL/2, -zH/2);
+    ctx.drawImage(loadedAssets.zombie2, 0, 0, zL, zH);
     ctx.restore();
+    // code block
+    break;
+
+    case 3:
+    zL = 75*zAgr;
+    zH = 56*zAgr;
+
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    ctx.translate(-zL/2, -zH/2);
+    ctx.drawImage(loadedAssets.zombie3, 0, 0, zL, zH);
+    ctx.restore();
+    // code block
+    break;
+
+    case 4:
+    zL = 68*zAgr;
+    zH = 109*zAgr;
+
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    ctx.translate(-zL/2, -zH/2);
+    ctx.drawImage(loadedAssets.zombie4, 0, 0, zL, zH);
+    ctx.restore();
+    // code block
+    break;
+
+    default:
+    // code block
+  }
+
+    
+
+
+    // ctx.save();
+    //     // je le retaille
+    // ctx.scale(this.scale, this.scale);
+    // // On positionne le rectangle en changeant le repere
+    // ctx.translate(this.x, this.y);
+    // ctx.rotate(this.angle);
+    // // recentrer un rectangle, on translate en négatif
+    // // de sa demi largeur et sa demi hauteur
+    // ctx.translate(-this.w/2, -this.h/2);
+    
+    // ctx.fillStyle = this.color;
+    
+    // ctx.fillRect(0, 0, this.w, this.h);
+    // // les yeux
+    // ctx.fillStyle="white";
+    // ctx.fillRect(10, 10, 5, 5);
+    // ctx.fillRect(30, 10, 5, 5);
+    // ctx.restore();
   }
   
    suitPersonnage(p1) {
@@ -79,6 +147,7 @@ constructor(x, y, w, h, c, angle) {
     if(dist > 5) {
       this.x += this.vitesse * Math.sin(this.angle);
       this.y -= this.vitesse * Math.cos(this.angle);
+      //console.log(this.id);
       //console.log(this.angle);
     }
   }
@@ -112,19 +181,25 @@ function creerZombie(i){
 	if(stage1){
 		for(let nbZ = 1; nbZ<i+1; nbZ++){
 			yAlea = Math.random() * 800;
-			window['zombie'+(nbZ)] = new Zombie(1, yAlea, 50, 50, "black", 0);
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(1, yAlea, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]); 		
 		}
 	}
 	if(stage2){
 		for(let nbZ = 1; nbZ<(i/2)+1; nbZ++){
 			yAlea = Math.random() * 800;
-			window['zombie'+(nbZ)] = new Zombie(1, yAlea, 50, 50, "black", 0);
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(1, yAlea, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}
 		for(let nbZ = (i/2)+1; nbZ<i+1; nbZ++){
 			xAlea = Math.random() * 1500;
-			window['zombie'+(nbZ)] = new Zombie(xAlea, 1, 50, 50, "black", 0);
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(xAlea, 1, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}		
 		
@@ -132,18 +207,24 @@ function creerZombie(i){
 	if(stage3){
 		for(let nbZ = 1; nbZ<(i/3)+1; nbZ++){
 			yAlea = Math.random() * 800;
-			window['zombie'+(nbZ)] = new Zombie(1, yAlea, 50, 50, "black", 0);
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(1, yAlea, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}
 		for(let nbZ = (i/3)+1; nbZ<(i/3)*2+1; nbZ++){
 			xAlea = Math.random() * 1500;
-			window['zombie'+(nbZ)] = new Zombie(xAlea, 1, 50, 50, "black", 0);
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(xAlea, 1, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}		
 		
 		for(let nbZ = (i/3)*2+1; nbZ<i+1; nbZ++){
 			yAlea = Math.random() * 1500;
-			window['zombie'+(nbZ)] = new Zombie(1400, yAlea, 50, 50, "black", 0);
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(1400, yAlea, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}	
 		
@@ -152,24 +233,32 @@ function creerZombie(i){
   if(stage4){
 		for(let nbZ = 1; nbZ<(i/4)+1; nbZ++){
 			yAlea = Math.random() * 800;
-			window['zombie'+(nbZ)] = new Zombie(0, yAlea, 50, 50, "black", 0);
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(0, yAlea, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}
 		for(let nbZ = (i/4)+1; nbZ<(i/4)*2+1; nbZ++){
 			xAlea = Math.random() * 1500;
-			window['zombie'+(nbZ)] = new Zombie(xAlea, 0, 50, 50, "black", 0);
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(xAlea, 0, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}		
 		
 		for(let nbZ = (i/4)*2+1; nbZ<(i/4)*3+1; nbZ++){
 			yAlea = Math.random() * 1500;
-			window['zombie'+(nbZ)] = new Zombie(1400, yAlea, 50, 50, "black", 0);
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(1400, yAlea, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}
 		
 		for(let nbZ = (i/4)*3+1; nbZ<i+1; nbZ++){
 			xAlea = Math.random() * 1500;
-			window['zombie'+(nbZ)] = new Zombie(xAlea, 800, 50, 50, "black", 0);
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(xAlea, 800, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}
 		 

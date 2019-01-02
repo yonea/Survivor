@@ -13,7 +13,12 @@ var assetsToLoadURLs = {
     audiosound1: {url: './assets/sound1js.mp3' , buffer: false, loop: false, volume: 0.4 },
     douille : { url: './assets/douille.png' },
 	audiorecharger: {url: './assets/son_recharger.mp3' , buffer: false, loop: false, volume: 0.4 },
-	toucheR : { url: './assets/touche_R.png' }
+	toucheR : { url: './assets/touche_R.png' },
+    fond3 : { url: './assets/fond3.jpg' },
+    zombie1 : { url: './assets/zombie1.png' },
+    zombie2 : { url: './assets/zombie2.png' },
+    zombie3 : { url: './assets/zombie3.png' },
+    zombie4 : { url: './assets/zombie4.png' }
 };
 
 var loadedAssets;
