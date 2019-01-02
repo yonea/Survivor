@@ -11,10 +11,9 @@ var assetsToLoadURLs = {
     audiomus: {url: './assets/musiquejs.mp3' , buffer: false, loop: true, volume: 0.8 },
     audiomus2: {url: './assets/musiquejspause.mp3' , buffer: false, loop: true, volume: 0.8 },
     audiosound1: {url: './assets/sound1js.mp3' , buffer: false, loop: false, volume: 0.4 },
-    douille : { url: './assets/douille.png' }
-    
-    
-    
+    douille : { url: './assets/douille.png' },
+	audiorecharger: {url: './assets/son_recharger.mp3' , buffer: false, loop: false, volume: 0.4 },
+	toucheR : { url: './assets/touche_R.png' }
 };
 
 var loadedAssets;

@@ -453,18 +453,11 @@ function tirer(){
   if(l<6)
   {
   loadedAssets.audio.play();
-  //let balle = new Balle(bx,by, bvx, bvy, bv);
   
 	  window['balle'+l] = new Balle(bx,by, bvx, bvy, bv);
 	  window['balle'+l].name = 'balle'+l;
 	  tableauDesBalles.push(window['balle'+l]); 
   
-	  
-	  // 1370, 5, 18, 70
-	  // 1400, 5, 18, 70
-	  // 1430, 5, 18, 70
-	  // 1460, 5, 18, 70
-
   }
   
   
@@ -534,6 +527,7 @@ function onkeyd_page(event){
 	if(keyd == "R" )
 	{ 
 		l=0;
+		loadedAssets.audiorecharger.play();
 	}
 	
 	if(keyd == "Z" || event.keyCode == 38)
@@ -667,12 +661,8 @@ function detectMur()
     }
 }
 function recharger(){
-//ctx.clearRect(1340, 5, 0, 200);
+
 if(l==4)
-//ctx.drawImage(loadedAssets.douille, 1340, 5, 18, 70);
-// ctx.drawImage(loadedAssets.douille, 1370, 5, 18, 70);
-// ctx.drawImage(loadedAssets.douille, 1400, 5, 18, 70);
-// ctx.drawImage(loadedAssets.douille, 1430, 5, 18, 70);
  ctx.drawImage(loadedAssets.douille, 1460, 5, 18, 70);
  else if(l==3){
 	ctx.drawImage(loadedAssets.douille, 1430, 5, 18, 70);
@@ -696,9 +686,10 @@ if(l==4)
 	ctx.drawImage(loadedAssets.douille, 1430, 5, 18, 70);
 	ctx.drawImage(loadedAssets.douille, 1460, 5, 18, 70);
  }
- else
-	 ctx.clearRect(1340, 5, 0, 200);
+ else{
+	ctx.drawImage(loadedAssets.toucheR, 1370, 5, 40, 80);
 
+ }
 	 
 }
 function dessinerPersonnage(){
@@ -767,6 +758,7 @@ function animeChoix(){
   ctx.font="65px Courier New";
   ctx.fillStyle = "black";
   ctx.fillText("REGLAGE",lc/2-131,6*hc/10);
+  
 
   //aJouer.draw(ctx);
 
@@ -891,6 +883,7 @@ function anime() {
 	  mouvementCheval();
 	}
 	deplacerLesBalles(); 
+	
 	recharger();
 
 	//dessiner les personnges
