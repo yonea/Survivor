@@ -13,6 +13,7 @@ let icompdemarreEna = 1;
 let idAlea;
 let zH, zL;
 let zAgr = 1.2;
+let v = 0;
 // var personnage = new Image();
 // personnage.src = "assets/personnage.png";
 // var cheval = new Image();
@@ -983,7 +984,7 @@ function anime() {
     // ctx.drawImage(fond2, (-100 + (100 - p1.x/lc*100)), (-100 + (100 - p1.y/hc*100)), lc+200, hc+200);
     ctx.drawImage(loadedAssets.fond2, (-100 + ((Math.cos(icomp)*50)+50)), (-100 + ((Math.sin(icomp*0.7)*35)+35)), lc+200, hc+200);
     //ctx.drawImage(fond2, (-100 + ((Math.cos(icomp*1.2)*25)+50)), (-100 + ((Math.sin(icomp*1.3)*50)+35)), lc+200, hc+200);
-    
+   
     if(p1.x <= (ch1.x + 50) && p1.x >= (ch1.x - 50) && p1.y <= (ch1.y + 50) && p1.y >= (ch1.y - 50) && chevalEna == 0 && chevalApp == 0)
     {
       chevalApp = 1;
@@ -992,12 +993,38 @@ function anime() {
       chevalEna = 1;
       ch1.v = 10;
       p1.v=10;
+	  // ctx.fillStyle="green";
+		// ctx.fillRect(1340,110,140,20);
+		// ctx.fillStyle="black";
+		// if(v<141){
+			// v += 0.75;
+			// ctx.fillRect(1340,110,v,20);
+		// }
+	 
     }
     if(p1.x >= (ch1.x + 50) || p1.x <= (ch1.x - 50) || p1.y >= (ch1.y + 50) || p1.y <= (ch1.y - 50) )
     {
       chevalApp = 0;
     }    
     icomp += 0.015;
+	
+	if(chevalApp){
+		ctx.fillStyle="green";
+		ctx.fillRect(1340,110,140,20);
+		ctx.fillStyle="black";
+		if(v<141){
+			v += 0.4;
+			ctx.fillRect(1340,110,v,20);
+		 }
+		else{
+			chevalApp = 1;
+			chevalEna = 0;
+			ch1.x = p1.x - 15;
+			ch1.v = 5;
+			p1.v=5;
+			v=0;
+		}
+	}
   }
   requestAnimationFrame(anime);
 }
