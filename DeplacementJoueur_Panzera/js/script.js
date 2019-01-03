@@ -7,6 +7,7 @@ let fondEna = 0;
 let chevalEna = 0;
 let chevalApp = 0;
 let pauseEna = 0;
+let finEna = 0;
 let fenetre1Ena = 1;
 let fenetre2Ena = 1;
 let icompdemarreEna = 1;
@@ -111,27 +112,6 @@ constructor(x, y, w, h, c, angle, id) {
     // code block
   }
 
-    
-
-
-    // ctx.save();
-    //     // je le retaille
-    // ctx.scale(this.scale, this.scale);
-    // // On positionne le rectangle en changeant le repere
-    // ctx.translate(this.x, this.y);
-    // ctx.rotate(this.angle);
-    // // recentrer un rectangle, on translate en négatif
-    // // de sa demi largeur et sa demi hauteur
-    // ctx.translate(-this.w/2, -this.h/2);
-    
-    // ctx.fillStyle = this.color;
-    
-    // ctx.fillRect(0, 0, this.w, this.h);
-    // // les yeux
-    // ctx.fillStyle="white";
-    // ctx.fillRect(10, 10, 5, 5);
-    // ctx.fillRect(30, 10, 5, 5);
-    // ctx.restore();
   }
   
    suitPersonnage(p1) {
@@ -330,7 +310,9 @@ function creerZombie(i){
 	{
     //console.log("tue");
     //tableauDesZombies.splice(r,1);
-	delete p1;
+	//delete p1;
+  finEna = 1;
+  loadedAssets.audiofond.pause();
 	//ecran fin de partie à ajouter
 	console.log("perdu");
     
@@ -554,7 +536,7 @@ function tirer(){
 }
 
 function onclick_page(){
-  if(!pauseEna){
+  if(!pauseEna && !finEna){
     tirer();
   }
 
@@ -922,58 +904,71 @@ let icompPause = 0;
 function anime() {
 	if (pauseEna){
 		if(icompPause <= 8){
-		ctx.fillStyle = "rgba(220, 84, 44, 0.1)";
+      ctx.fillStyle = "rgba(220, 84, 44, 0.1)";
 		//ctx.fillStyle = "rgba(200, 75, 37, 0.1)";
 		//ctx.fillStyle = "rgba(165, 25, 25, 0.1)";
 		ctx.fillRect(0,0,lc,hc);
-		}
-	if(icompPause == 9){
-		ctx.font="65px Courier New";
-		ctx.fillStyle = "black";
+  }
+  if(icompPause == 9){
+    ctx.font="65px Courier New";
+    ctx.fillStyle = "black";
 
-		ctx.fillText("PAUSE",lc/2-90,9*hc/10);
-		ctx.drawImage(loadedAssets.logords, lc/2 - 300,hc/15 , 600, 261);
-	}
+    ctx.fillText("PAUSE",lc/2-90,9*hc/10);
+    ctx.drawImage(loadedAssets.logords, lc/2 - 300,hc/15 , 600, 261);
+  }
 
-	icompPause +=1;
-	}
-	else {
-		ctx.clearRect(0, 0, lc, hc);
-		ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
-		detectMur();
+  icompPause +=1;
+}
+else if(finEna)
+{
+ctx.clearRect(0, 0, lc, hc);
+ctx.fillStyle = "rgb(220, 20, 20)";
+ctx.fillRect(0,0,lc,hc);
+ctx.font="65px Courier New";
+ctx.fillStyle = "bold";
+ctx.fillStyle = "black";
+ctx.fillText("PERDU",lc/2-90,hc/2);
 
-	if(mousePos !== undefined) {
-		
-		for(let j = 0; j< tableauDesBalles.length; j++){
-			let ba = tableauDesBalles[j];
-			
-			for(let i = 0; i< tableauDesZombies.length; i++){
-				let zo = tableauDesZombies[i];
-				CollisionBalleAvecZombie(zo, i, ba, j);
-			}
-		}
-		for(let i = 0; i< tableauDesZombies.length; i++){
-				let zo = tableauDesZombies[i];
-				zo.suitPersonnage(p1);
-				zo.move();
-		}
-		CollisionZombieAvecPersonnage();
-		p1.suitsouris(mousePos);
-		
-		if (chevalEna)
-			ch1.suitsouris(mousePos);
-	}
+
+
+}
+else {
+  ctx.clearRect(0, 0, lc, hc);
+  ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
+  detectMur();
+
+  if(mousePos !== undefined) {
+
+    for(let j = 0; j< tableauDesBalles.length; j++){
+     let ba = tableauDesBalles[j];
+
+     for(let i = 0; i< tableauDesZombies.length; i++){
+      let zo = tableauDesZombies[i];
+      CollisionBalleAvecZombie(zo, i, ba, j);
+    }
+  }
+  for(let i = 0; i< tableauDesZombies.length; i++){
+    let zo = tableauDesZombies[i];
+    zo.suitPersonnage(p1);
+    zo.move();
+  }
+  CollisionZombieAvecPersonnage();
+  p1.suitsouris(mousePos);
+
+  if (chevalEna)
+   ch1.suitsouris(mousePos);
+}
 
 	//gerer les mouvements
 	deplacerLesZombies();
 	mouvementJoueur();
 	if (chevalEna)
 	{
-	  mouvementCheval();
-	}
-	deplacerLesBalles(); 
-	
-	recharger();
+   mouvementCheval();
+ }
+ deplacerLesBalles(); 
+
+ recharger();
 
 	//dessiner les personnges
 	dessinerLesBalles();  
@@ -983,7 +978,7 @@ function anime() {
     // ctx.drawImage(fond2, (-100 + (100 - p1.x/lc*100)), (-100 + (100 - p1.y/hc*100)), lc+200, hc+200);
     ctx.drawImage(loadedAssets.fond2, (-100 + ((Math.cos(icomp)*50)+50)), (-100 + ((Math.sin(icomp*0.7)*35)+35)), lc+200, hc+200);
     //ctx.drawImage(fond2, (-100 + ((Math.cos(icomp*1.2)*25)+50)), (-100 + ((Math.sin(icomp*1.3)*50)+35)), lc+200, hc+200);
-   
+
     if(p1.x <= (ch1.x + 50) && p1.x >= (ch1.x - 50) && p1.y <= (ch1.y + 50) && p1.y >= (ch1.y - 50) && chevalEna == 0 && chevalApp == 0)
     {
       chevalApp = 1;
@@ -992,17 +987,17 @@ function anime() {
       chevalEna = 1;
       ch1.v = 10;
       p1.v=10;
-	
-	 
+
+
     }
     if(p1.x >= (ch1.x + 50) || p1.x <= (ch1.x - 50) || p1.y >= (ch1.y + 50) || p1.y <= (ch1.y - 50) )
     {
-		v=0;
-		chevalApp = 0;
+      v=0;
+      chevalApp = 0;
     }    
     icomp += 0.015;
-	
-	if(chevalApp){
+
+    if(chevalApp){
 		//ctx.fillStyle="green";
 		// ctx.fillRect(1340,110,140,20);
 		ctx.drawImage(loadedAssets.fondtransparent2, 1340, 110, 140, 20);
@@ -1011,17 +1006,17 @@ function anime() {
 			v += 0.4;
 			ctx.drawImage(loadedAssets.fondtransparent1, 1340, 110, v, 20);
 			//ctx.fillRect(1340,110,v,15);
-		 }
-		else{
-			chevalApp = 1;
-			chevalEna = 0;
-			ch1.x = p1.x - 74;
-			ch1.y = p1.y - 74;
-			ch1.v = 5;
-			p1.v=5;
-			v=0;
-		}
-	}
-  }
-  requestAnimationFrame(anime);
+   }
+   else{
+     chevalApp = 1;
+     chevalEna = 0;
+     ch1.x = p1.x - 74;
+     ch1.y = p1.y - 74;
+     ch1.v = 5;
+     p1.v=5;
+     v=0;
+   }
+ }
+}
+requestAnimationFrame(anime);
 }
