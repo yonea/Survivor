@@ -827,7 +827,6 @@ function Stage3(){
 function Stage4(){
 	stage3 = false;
 	stage4 = true;
-	vitesseZombie++;
 	creerZombie(8);
 }
 
@@ -993,33 +992,31 @@ function anime() {
       chevalEna = 1;
       ch1.v = 10;
       p1.v=10;
-	  // ctx.fillStyle="green";
-		// ctx.fillRect(1340,110,140,20);
-		// ctx.fillStyle="black";
-		// if(v<141){
-			// v += 0.75;
-			// ctx.fillRect(1340,110,v,20);
-		// }
+	
 	 
     }
     if(p1.x >= (ch1.x + 50) || p1.x <= (ch1.x - 50) || p1.y >= (ch1.y + 50) || p1.y <= (ch1.y - 50) )
     {
-      chevalApp = 0;
+		v=0;
+		chevalApp = 0;
     }    
     icomp += 0.015;
 	
 	if(chevalApp){
-		ctx.fillStyle="green";
-		ctx.fillRect(1340,110,140,20);
-		ctx.fillStyle="black";
+		//ctx.fillStyle="green";
+		// ctx.fillRect(1340,110,140,20);
+		ctx.drawImage(loadedAssets.fondtransparent2, 1340, 110, 140, 20);
+		//ctx.fillStyle="black";
 		if(v<141){
 			v += 0.4;
-			ctx.fillRect(1340,110,v,20);
+			ctx.drawImage(loadedAssets.fondtransparent1, 1340, 110, v, 20);
+			//ctx.fillRect(1340,110,v,15);
 		 }
 		else{
 			chevalApp = 1;
 			chevalEna = 0;
-			ch1.x = p1.x - 15;
+			ch1.x = p1.x - 74;
+			ch1.y = p1.y - 74;
 			ch1.v = 5;
 			p1.v=5;
 			v=0;

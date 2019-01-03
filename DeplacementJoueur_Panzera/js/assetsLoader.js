@@ -18,7 +18,10 @@ var assetsToLoadURLs = {
     zombie1 : { url: './assets/zombie1.png' },
     zombie2 : { url: './assets/zombie2.png' },
     zombie3 : { url: './assets/zombie3.png' },
-    zombie4 : { url: './assets/zombie4.png' }
+    zombie4 : { url: './assets/zombie4.png' },
+	fondtransparent1: { url: './assets/fondtransparent1.png' },
+	fondtransparent2: { url: './assets/fondtransparent2.png' }
+	
 };
 
 var loadedAssets;
