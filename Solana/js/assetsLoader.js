@@ -4,20 +4,32 @@ var assetsToLoadURLs = {
     personnage: { url: './assets/personnage.png' },
     cheval: { url: './assets/cheval.png' },
     fond: { url: './assets/fond.jpg' },
-    fondZombie: { url: './assets/fondZombie.jpg' },
-    play: {url: './assets/play.png' },
-    option: {url: './assets/option.png' },
     audio: {url: './assets/gunjs.mp3' , buffer: false, loop: false, volume: 0.6 },
     fond2: { url: './assets/fond2.png' },
     logords: { url: './assets/rdsurvivor_logo.png' },
     audiofond: {url: './assets/windjs.mp3' , buffer: false, loop: true, volume: 0.1 },
     audiomus: {url: './assets/musiquejs.mp3' , buffer: false, loop: true, volume: 0.8 },
     audiomus2: {url: './assets/musiquejspause.mp3' , buffer: false, loop: true, volume: 0.8 },
-    audiosound1: {url: './assets/sound1js.mp3' , buffer: false, loop: false, volume: 0.4 }
+    audiosound1: {url: './assets/sound1js.mp3' , buffer: false, loop: false, volume: 0.4 },
+    douille : { url: './assets/douille.png' },
+	audiorecharger: {url: './assets/son_recharger.mp3' , buffer: false, loop: false, volume: 0.4 },
+	toucheR : { url: './assets/touche_R.png' },
+    fond3 : { url: './assets/fond3.jpg' },
+    zombie1 : { url: './assets/zombie1.png' },
+    zombie2 : { url: './assets/zombie2.png' },
+    zombie3 : { url: './assets/zombie3.png' },
+    zombie4 : { url: './assets/zombie4.png' },
+	fondtransparent1: { url: './assets/fondtransparent1.png' },
+	fondtransparent2: { url: './assets/fondtransparent2.png' },
+    fondZombie: { url: './assets/fondZombie.jpg' },
+    play: {url: './assets/play.png' },
+    option: {url: './assets/option.png' },
+    lose: { url: './assets/lose.png' },
+	fin: {url: './assets/fin.mp3' , buffer: false, loop: false, volume: 0.4 },
+    dead: {url: './assets/dead.jpg' },
+    exit: {url: './assets/exit.png' }
     
-    
-    
-    
+	
 };
 
 var loadedAssets;

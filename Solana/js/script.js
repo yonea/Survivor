@@ -7,9 +7,16 @@ let fondEna = 0;
 let chevalEna = 0;
 let chevalApp = 0;
 let pauseEna = 0;
+let finEna = 0;
 let fenetre1Ena = 1;
 let fenetre2Ena = 1;
 let icompdemarreEna = 1;
+let idAlea;
+let zH, zL;
+let zAgr = 1.2;
+let v = 0;
+let zoomLose = 0;
+let barreLose = 0;
 // var personnage = new Image();
 // personnage.src = "assets/personnage.png";
 // var cheval = new Image();
@@ -28,41 +35,106 @@ let icompdemarreEna = 1;
 //64.8 . 48.8
 
 document.onselectstart = new Function ("return false");
-
+var vitesseZombie=0.5;
 class Zombie {
 
-constructor(x, y, w, h, c, angle) {
+constructor(x, y, w, h, c, angle, id) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
-    this.vitesse = 0.5;
+    this.vitesse = vitesseZombie;
     this.color = c;
     this.angle = angle || 0;
     this.scale = 1;
+    this.id = id || 1;
   }
   
   
 
-   draw(ctx) {
+  draw(ctx) {
+
+    switch(this.id) {
+
+    case 1:
+
+      zL = 73*zAgr;
+      zH = 76*zAgr;
+
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+      ctx.translate(-zL/2, -zH/2);
+      ctx.drawImage(loadedAssets.zombie1, 0, 0, zL, zH);
+      ctx.restore();
+    // code block
+    break;
+
+    case 2:
+
+    zL = 75*zAgr;
+    zH = 56*zAgr;
+
     ctx.save();
-        // je le retaille
-    ctx.scale(this.scale, this.scale);
-    // On positionne le rectangle en changeant le repere
     ctx.translate(this.x, this.y);
     ctx.rotate(this.angle);
-    // recentrer un rectangle, on translate en négatif
-    // de sa demi largeur et sa demi hauteur
-    ctx.translate(-this.w/2, -this.h/2);
-    
-    ctx.fillStyle = this.color;
-    
-    ctx.fillRect(0, 0, this.w, this.h);
-    // les yeux
-    ctx.fillStyle="white";
-    ctx.fillRect(10, 10, 5, 5);
-    ctx.fillRect(30, 10, 5, 5);
+    ctx.translate(-zL/2, -zH/2);
+    ctx.drawImage(loadedAssets.zombie2, 0, 0, zL, zH);
     ctx.restore();
+    // code block
+    break;
+
+    case 3:
+    zL = 75*zAgr;
+    zH = 56*zAgr;
+
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    ctx.translate(-zL/2, -zH/2);
+    ctx.drawImage(loadedAssets.zombie3, 0, 0, zL, zH);
+    ctx.restore();
+    // code block
+    break;
+
+    case 4:
+    zL = 68*zAgr;
+    zH = 109*zAgr;
+
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    ctx.translate(-zL/2, -zH/2);
+    ctx.drawImage(loadedAssets.zombie4, 0, 0, zL, zH);
+    ctx.restore();
+    // code block
+    break;
+
+    default:
+    // code block
+  }
+
+    
+
+
+    // ctx.save();
+    //     // je le retaille
+    // ctx.scale(this.scale, this.scale);
+    // // On positionne le rectangle en changeant le repere
+    // ctx.translate(this.x, this.y);
+    // ctx.rotate(this.angle);
+    // // recentrer un rectangle, on translate en négatif
+    // // de sa demi largeur et sa demi hauteur
+    // ctx.translate(-this.w/2, -this.h/2);
+    
+    // ctx.fillStyle = this.color;
+    
+    // ctx.fillRect(0, 0, this.w, this.h);
+    // // les yeux
+    // ctx.fillStyle="white";
+    // ctx.fillRect(10, 10, 5, 5);
+    // ctx.fillRect(30, 10, 5, 5);
+    // ctx.restore();
   }
   
    suitPersonnage(p1) {
@@ -79,6 +151,7 @@ constructor(x, y, w, h, c, angle) {
     if(dist > 5) {
       this.x += this.vitesse * Math.sin(this.angle);
       this.y -= this.vitesse * Math.cos(this.angle);
+      //console.log(this.id);
       //console.log(this.angle);
     }
   }
@@ -104,40 +177,151 @@ function deplacerLesZombies(){
   });
 }
 var z = 0;
-function creerZombie(){
+function creerZombie(i){
   //0,[0,800); [0,1400],0 ; 1400,[0,800];  [0,1400],800
-  xAlea = Math.random() * 1501;
-  yAlea = Math.random() * 801;
-  //zombie = new Zombie(0, yAlea, 50, 50, "black", 0);
-  //tableauDesZombies.push(z1); 
-  window['zombie'+z] = new Zombie(0, yAlea, 50, 50, "black", 0);
-  if (window['zombie'+z] != undefined){
-    //alert("existe deja");
-    z++;
-    window['zombie'+z] = new Zombie(0, yAlea, 50, 50, "black", 0);
-    console.log("zombie" + z);
-    tableauDesZombies.push(window['zombie'+z]); 
+  xAlea = Math.random() * 1500;
+  yAlea = Math.random() * 800;
+  
+	if(stage1){
+		for(let nbZ = 1; nbZ<i+1; nbZ++){
+			yAlea = Math.random() * 800;
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(1, yAlea, 50, 50, "black", 0, idAlea);
+			tableauDesZombies.push(window['zombie'+nbZ]); 		
+		}
+	}
+	if(stage2){
+		for(let nbZ = 1; nbZ<(i/2)+1; nbZ++){
+			yAlea = Math.random() * 800;
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(1, yAlea, 50, 50, "black", 0, idAlea);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}
+		for(let nbZ = (i/2)+1; nbZ<i+1; nbZ++){
+			xAlea = Math.random() * 1500;
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(xAlea, 1, 50, 50, "black", 0, idAlea);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}		
+		
+	}
+	if(stage3){
+		for(let nbZ = 1; nbZ<(i/3)+1; nbZ++){
+			yAlea = Math.random() * 800;
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(1, yAlea, 50, 50, "black", 0, idAlea);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}
+		for(let nbZ = (i/3)+1; nbZ<(i/3)*2+1; nbZ++){
+			xAlea = Math.random() * 1500;
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(xAlea, 1, 50, 50, "black", 0, idAlea);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}		
+		
+		for(let nbZ = (i/3)*2+1; nbZ<i+1; nbZ++){
+			yAlea = Math.random() * 1500;
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(1400, yAlea, 50, 50, "black", 0, idAlea);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}	
+		
+	 
   }
-  //focus_page();
+  if(stage4){
+		for(let nbZ = 1; nbZ<(i/4)+1; nbZ++){
+			yAlea = Math.random() * 800;
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(0, yAlea, 50, 50, "black", 0, idAlea);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}
+		for(let nbZ = (i/4)+1; nbZ<(i/4)*2+1; nbZ++){
+			xAlea = Math.random() * 1500;
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(xAlea, 0, 50, 50, "black", 0, idAlea);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}		
+		
+		for(let nbZ = (i/4)*2+1; nbZ<(i/4)*3+1; nbZ++){
+			yAlea = Math.random() * 1500;
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(1400, yAlea, 50, 50, "black", 0, idAlea);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}
+		
+		for(let nbZ = (i/4)*3+1; nbZ<i+1; nbZ++){
+			xAlea = Math.random() * 1500;
+      idAlea = Math.round(Math.random() * 4);
+      console.log(idAlea);
+			window['zombie'+(nbZ)] = new Zombie(xAlea, 800, 50, 50, "black", 0, idAlea);
+			tableauDesZombies.push(window['zombie'+nbZ]);
+		}
+		 
+		
+  }
 }
 
 
- function CollisionBalleAvecZombie(zombie) {
+ function CollisionBalleAvecZombie(zombie,i, balle, j) {
   
-  tableauDesBalles.forEach((r) => {
+  //tableauDesBalles.forEach((r) => {
+  let r = balle;
   
+  //console.log("pp" + r.x);
      if(((r.x) <= zombie.x + 50 ) && ((r.y) <= zombie.y + 50 ) && ((r.x) >= zombie.x - 50 ) && ((r.y) >= zombie.y - 50 )) {
     //console.log("tue");
-    tableauDesZombies.splice(zombie,1);
-    //zombie.vitesse++;
-    tableauDesBalles.splice(r,1);
-    creerZombie();
- }
+		if(i==0){
+			//console.log(zombie.name + "tué");
+			tableauDesZombies.splice(i,1);
+		}
+		else{
+			//console.log(zombie.name + "tué");
+			tableauDesZombies.splice(i,1);
+		}
+    
+		if(j==0){
+			tableauDesBalles.splice(j,1);
+			//console.log("avec la balle " + r.name);
+		}
+		else{
+			tableauDesBalles.splice(j,1);
+			//console.log("avec la balle " + r.name);
+		}	
+  
+	//console.log(tableauDesZombies[0]);
+	
+	
+	}
   //    if(((r.y+r.h) > hc) || (r.y < 0)) 
   //   r.vy = -r.vy;
   // });
     
- });
+ //});
+ 
+	if(stage1 && tableauDesZombies.length == 0)
+	{
+		
+		Stage2();
+	}
+	
+	if(stage2 && tableauDesZombies.length == 0)
+	{
+		Stage3();
+	}
+	if(stage3 && tableauDesZombies.length == 0)
+	{
+		Stage4();
+	}
+	
 }
 
 
@@ -149,7 +333,10 @@ function creerZombie(){
 	{
     //console.log("tue");
     //tableauDesZombies.splice(r,1);
-	delete p1;
+//	delete p1;
+    finEna = 1;
+    loadedAssets.audiofond.pause();
+	//ecran fin de partie à ajouter
 	console.log("perdu");
     
 	}
@@ -287,6 +474,7 @@ class Balle {
     this.vx = vx;
     this.vy = vy;
     this.v = v;
+	this.name = "balle";
   }
 
   draw(ctx){
@@ -347,21 +535,31 @@ function creerPersonnages(){
  ch1 = new ChevalI(x, y, l, h, v, vy,a)
 
 }
-
+var l = 0;
 function tirer(){
+  l++;
+  console.log("l : " + l);
   let bx = p1.x;
   let by = p1.y;
   let ang = Math.atan2((by - mousePos.y),(bx - mousePos.x));
   let bvx = Math.cos(ang + Math.PI) ;
   let bvy = Math.sin(ang + Math.PI) ;
-  let bv = 25;
-  let balle = new Balle(bx,by, bvx, bvy, bv);
-  tableauDesBalles.push(balle); 
+  let bv = 20;
+  if(l<6)
+  {
   loadedAssets.audio.play();
+  
+	  window['balle'+l] = new Balle(bx,by, bvx, bvy, bv);
+	  window['balle'+l].name = 'balle'+l;
+	  tableauDesBalles.push(window['balle'+l]); 
+  
+  }
+  
+  
 }
 
 function onclick_page(){
-  if(!pauseEna){
+  if(!pauseEna && !finEna){
     tirer();
   }
 
@@ -380,11 +578,11 @@ function demarerJeu() {
     lc = canvas.width;
     hc = canvas.height;
     ctx = canvas.getContext("2d");
-    creerZombie();
-    creerZombie();
+    
     creerPersonnages();
     creerChoix();
-
+	Stage1();
+	
     //creerCheval();
     //requestAnimationFrame(anime);
     //pauseEna = 0;
@@ -392,6 +590,7 @@ function demarerJeu() {
     pauseEna = 1;
     loadedAssets.audiosound1.play();
     requestAnimationFrame(animeDemarre);  
+	recharger();
 }
 
 function onmousemove_page(event){
@@ -419,6 +618,11 @@ function onkeyd_page(event){
 	if(keyd == "Q" || event.keyCode == 37)
 	{
 		leftEna = 1;
+	}
+	if(keyd == "R" )
+	{ 
+		l=0;
+		loadedAssets.audiorecharger.play();
 	}
 	
 	if(keyd == "Z" || event.keyCode == 38)
@@ -551,7 +755,38 @@ function detectMur()
       downEna = 0;
     }
 }
+function recharger(){
 
+if(l==4)
+ ctx.drawImage(loadedAssets.douille, 1460, 5, 18, 70);
+ else if(l==3){
+	ctx.drawImage(loadedAssets.douille, 1430, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1460, 5, 18, 70);
+ }
+ else if (l==2){
+	ctx.drawImage(loadedAssets.douille, 1400, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1430, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1460, 5, 18, 70);
+ }
+ else if(l==1){
+	ctx.drawImage(loadedAssets.douille, 1370, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1400, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1430, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1460, 5, 18, 70);
+ }
+ else if(l==0){
+	ctx.drawImage(loadedAssets.douille, 1340, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1370, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1400, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1430, 5, 18, 70);
+	ctx.drawImage(loadedAssets.douille, 1460, 5, 18, 70);
+ }
+ else{
+	ctx.drawImage(loadedAssets.toucheR, 1370, 5, 40, 80);
+
+ }
+	 
+}
 function dessinerPersonnage(){
   p1.draw(ctx);
 }
@@ -571,8 +806,33 @@ function testSourisChoix(){
     return 0;
   }
 
+}
 
+var stage1;
+var stage2;
+var stage3;
+var stage4;
 
+function Stage1(){
+	stage1= true;
+	creerZombie(2);
+}
+function Stage2(){
+	stage1 = false;
+	stage2 = true;
+	vitesseZombie++;
+	creerZombie(4);
+}
+function Stage3(){
+	stage2 = false;
+	stage3 = true;
+	vitesseZombie++;
+	creerZombie(6);
+}
+function Stage4(){
+	stage3 = false;
+	stage4 = true;
+	creerZombie(8);
 }
 
 let icompdemarre = 0;
@@ -586,16 +846,10 @@ function animeChoix(){
   ctx.fillStyle = "rgba(220, 20, 20, 1)";
   ctx.fillRect(0,0,lc,hc);
   ctx.drawImage(loadedAssets.logords, lc/2 - 300, 30 , 600, 261);
-//  ctx.font="65px Courier New";
-//  ctx.fillStyle = "black";
-//  ctx.fillText("JOUER",lc/2-96,5*hc/10);
-//  ctx.font="65px Courier New";
-//  ctx.fillStyle = "black";
-//  ctx.fillText("REGLAGE",lc/2-131,6*hc/10);
-    ctx.drawImage(loadedAssets.fondZombie, 0, hc-300);
-    ctx.drawImage(loadedAssets.play, lc/2-100, 340, 200, 200);
-    ctx.drawImage(loadedAssets.option, lc-60, 10, 50, 50);
     
+  ctx.drawImage(loadedAssets.fondZombie, 0, hc-300);
+  ctx.drawImage(loadedAssets.play, lc/2-100, 340, 200, 200);
+  ctx.drawImage(loadedAssets.option, lc-60, 10, 50, 50);
 
   //aJouer.draw(ctx);
 
@@ -685,22 +939,55 @@ function anime() {
 
 	icompPause +=1;
 	}
-	else {
-		ctx.clearRect(0, 0, lc, hc);
-		ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
-		detectMur();
+    else if(finEna)
+    {
 
-	if(mousePos !== undefined) {
-		tableauDesZombies.forEach((z) => {
-		z.suitPersonnage(p1);
-		z.move()
-		CollisionBalleAvecZombie(z);
-		});
-		CollisionZombieAvecPersonnage();
-		p1.suitsouris(mousePos);
-		if (chevalEna)
-			ch1.suitsouris(mousePos);
-	}
+        if(zoomLose < 100){
+	        zoomLose+=4;
+	        ctx.clearRect(0, 0, lc, hc);
+	        ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
+            var linear = ctx.createLinearGradient(0, 0, 0, 150);
+
+            ctx.fillStyle = "rgba(0, 0, 0, 1)";
+            ctx.fillRect(lc/2-zoomLose*8, hc/2-200, zoomLose*16, 150);
+            ctx.drawImage(loadedAssets.dead, lc/2-zoomLose*2, hc/2-200, zoomLose*4, 150);
+        }
+        
+        ctx.drawImage(loadedAssets.play, lc/2-200, hc/2, 150, 150);
+        ctx.drawImage(loadedAssets.exit, lc/2+25, hc/2-25, 200, 200);
+        ctx.font="40px Courier New";
+        ctx.fillStyle = "bold";
+        ctx.fillStyle = "black";
+        ctx.fillText("RESTART",lc/2-210,hc/2+200);
+        ctx.fillText("EXIT",lc/2+80,hc/2+200);
+        
+    }
+    else {
+        ctx.clearRect(0, 0, lc, hc);
+        ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
+        detectMur();
+
+	   if(mousePos !== undefined) {
+		
+		  for(let j = 0; j< tableauDesBalles.length; j++){
+			 let ba = tableauDesBalles[j];
+			
+			 for(let i = 0; i< tableauDesZombies.length; i++){
+				let zo = tableauDesZombies[i];
+				CollisionBalleAvecZombie(zo, i, ba, j);
+			 }
+		  }
+		  for(let i = 0; i< tableauDesZombies.length; i++){
+              let zo = tableauDesZombies[i];
+              zo.suitPersonnage(p1);
+              zo.move();
+		  }
+		  CollisionZombieAvecPersonnage();
+		  p1.suitsouris(mousePos);
+		
+		  if (chevalEna)
+			 ch1.suitsouris(mousePos);
+	   }
 
 	//gerer les mouvements
 	deplacerLesZombies();
@@ -710,7 +997,8 @@ function anime() {
 	  mouvementCheval();
 	}
 	deplacerLesBalles(); 
-
+	
+	recharger();
 
 	//dessiner les personnges
 	dessinerLesBalles();  
@@ -720,7 +1008,7 @@ function anime() {
     // ctx.drawImage(fond2, (-100 + (100 - p1.x/lc*100)), (-100 + (100 - p1.y/hc*100)), lc+200, hc+200);
     ctx.drawImage(loadedAssets.fond2, (-100 + ((Math.cos(icomp)*50)+50)), (-100 + ((Math.sin(icomp*0.7)*35)+35)), lc+200, hc+200);
     //ctx.drawImage(fond2, (-100 + ((Math.cos(icomp*1.2)*25)+50)), (-100 + ((Math.sin(icomp*1.3)*50)+35)), lc+200, hc+200);
-    
+   
     if(p1.x <= (ch1.x + 50) && p1.x >= (ch1.x - 50) && p1.y <= (ch1.y + 50) && p1.y >= (ch1.y - 50) && chevalEna == 0 && chevalApp == 0)
     {
       chevalApp = 1;
@@ -729,12 +1017,36 @@ function anime() {
       chevalEna = 1;
       ch1.v = 10;
       p1.v=10;
+	
+	 
     }
     if(p1.x >= (ch1.x + 50) || p1.x <= (ch1.x - 50) || p1.y >= (ch1.y + 50) || p1.y <= (ch1.y - 50) )
     {
-      chevalApp = 0;
+		v=0;
+		chevalApp = 0;
     }    
     icomp += 0.015;
+	
+	if(chevalApp){
+		//ctx.fillStyle="green";
+		// ctx.fillRect(1340,110,140,20);
+		ctx.drawImage(loadedAssets.fondtransparent2, 1340, 110, 140, 20);
+		//ctx.fillStyle="black";
+		if(v<141){
+			v += 0.4;
+			ctx.drawImage(loadedAssets.fondtransparent1, 1340, 110, v, 20);
+			//ctx.fillRect(1340,110,v,15);
+		 }
+		else{
+			chevalApp = 1;
+			chevalEna = 0;
+			ch1.x = p1.x - 74;
+			ch1.y = p1.y - 74;
+			ch1.v = 5;
+			p1.v=5;
+			v=0;
+		}
+	}
   }
   requestAnimationFrame(anime);
 }
