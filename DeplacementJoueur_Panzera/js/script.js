@@ -15,6 +15,7 @@ let idAlea;
 let zH, zL;
 let zAgr = 1.2;
 let v = 0;
+let zoomLose = 0;
 // var personnage = new Image();
 // personnage.src = "assets/personnage.png";
 // var cheval = new Image();
@@ -921,14 +922,22 @@ function anime() {
 }
 else if(finEna)
 {
-ctx.clearRect(0, 0, lc, hc);
-ctx.fillStyle = "rgb(220, 20, 20)";
-ctx.fillRect(0,0,lc,hc);
-ctx.font="65px Courier New";
-ctx.fillStyle = "bold";
-ctx.fillStyle = "black";
-ctx.fillText("PERDU",lc/2-90,hc/2);
 
+
+// ctx.fillStyle = "rgb(220, 20, 20)";
+// ctx.fillRect(0,0,lc,hc);
+// ctx.font="65px Courier New";
+// ctx.fillStyle = "bold";
+// ctx.fillStyle = "black";
+// ctx.fillText("PERDU",lc/2-90,hc/2);
+
+if(zoomLose < 500){
+	zoomLose+=20;
+	ctx.clearRect(0, 0, lc, hc);
+	ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
+	ctx.drawImage(loadedAssets.lose, 650 - zoomLose/2, 300 - zoomLose/2, 100+ zoomLose, 100+zoomLose);
+
+}
 
 
 }
