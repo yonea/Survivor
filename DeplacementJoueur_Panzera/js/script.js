@@ -490,11 +490,11 @@ function deplacerLesBalles(){
   });
 }
 
-function creerChoix(){
+// function creerChoix(){
 	
-aJouer = new ChoixI(20, 400, "black", "Jouer"); 
+// aJouer = new ChoixI(20, 400, "black", "Jouer"); 
 
-}
+// }
 
 function creerCheval()
 {
@@ -564,8 +564,8 @@ function demarerJeu() {
     ctx = canvas.getContext("2d");
     
     creerPersonnages();
-    creerChoix();
-	Stage1();
+    // creerChoix();
+    Stage1();
 	
     //creerCheval();
     //requestAnimationFrame(anime);
@@ -650,6 +650,13 @@ function onkeyd_page(event){
 			loadedAssets.audiomus2.play();
 		}
 	}
+
+  if(finEnaLose || finEnaWin){
+    if(event.keyCode == 32){
+      animeInitializer();
+      // requestAnimationFrame(anime);
+    }
+  }
 }
 
 function onkeyu_page(event)
@@ -843,12 +850,9 @@ function animeChoix(){
   
 
   if(varSourisChoix == 1){
-    console.log("Demarrage Jeu");
-    loadedAssets.audiomus.pause();
-    loadedAssets.audiofond.play();
+    
+    animeInitializer();
     requestAnimationFrame(anime);
-    fenetre2Ena = 0;
-    pauseEna = 0;
   }
 
 
@@ -905,6 +909,31 @@ function animeDemarre(){
 	}
 }
 
+function animeInitializer(){
+  tableauDesZombies = [];
+  creerPersonnages();
+  stage1 = false;
+  stage2 = false;
+  stage3 = false;
+  stage4 = false;
+  Stage1();
+  pauseEna = 0;
+  finEnaLose = 0;
+  finEnaWin = 0;
+  icomp = 0;
+  icompPause = 0;
+  zoomLose = 0;
+  console.log("Demarrage Jeu");
+  loadedAssets.audiomus.pause();
+  loadedAssets.audiofond.play();
+  fenetre2Ena = 0;
+  pauseEna = 0;
+  
+
+
+
+}
+
 let icomp = 0;
 let icompPause = 0;
 
@@ -957,6 +986,8 @@ else
   ctx.drawImage(loadedAssets.fond2, 0, 0, lc, hc);
   ctx.fillRect(0,0,lc,hc);
   ctx.drawImage(loadedAssets.lose, 650 - 500/2, 300 - 500/2, 100+ 500, 100+500);
+  ctx.fillStyle = "black";
+  ctx.fillText("ESPACE pour recommencer",lc/2-450,9*hc/10);
 }
 
 
@@ -965,12 +996,15 @@ else if(finEnaWin)
 {
 
 ctx.clearRect(0, 0, lc, hc);
-ctx.fillStyle = "rgb(220, 20, 20)";
+ctx.fillStyle = "rgba(220, 20, 20, 0.3)";
+ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
+ctx.drawImage(loadedAssets.fond2, 0, 0, lc, hc);
 ctx.fillRect(0,0,lc,hc);
 ctx.font="65px Courier New";
 ctx.fillStyle = "bold";
 ctx.fillStyle = "black";
 ctx.fillText("GAGNE",lc/2-90,hc/2);
+ctx.fillText("ESPACE pour recommencer",lc/2-450,3*hc/4);
 
 
 }
