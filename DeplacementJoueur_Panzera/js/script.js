@@ -7,7 +7,8 @@ let fondEna = 0;
 let chevalEna = 0;
 let chevalApp = 0;
 let pauseEna = 0;
-let finEna = 0;
+let finEnaLose = 0;
+let finEnaWin = 0;
 let fenetre1Ena = 1;
 let fenetre2Ena = 1;
 let icompdemarreEna = 1;
@@ -299,6 +300,11 @@ function creerZombie(i){
 	{
 		Stage4();
 	}
+
+  if(stage4 && tableauDesZombies.length == 0)
+  {
+    finEnaWin = 1;
+  }
 	
 }
 
@@ -312,7 +318,7 @@ function creerZombie(i){
     //console.log("tue");
     //tableauDesZombies.splice(r,1);
 	//delete p1;
-  finEna = 1;
+  finEnaLose = 1;
   loadedAssets.audiofond.pause();
 	//ecran fin de partie à ajouter
 	console.log("perdu");
@@ -537,7 +543,7 @@ function tirer(){
 }
 
 function onclick_page(){
-  if(!pauseEna && !finEna){
+  if(!pauseEna && !finEnaLose && !finEnaWin){
     tirer();
   }
 
@@ -798,13 +804,13 @@ function Stage1(){
 function Stage2(){
 	stage1 = false;
 	stage2 = true;
-	vitesseZombie++;
+	//vitesseZombie++;
 	creerZombie(4);
 }
 function Stage3(){
 	stage2 = false;
 	stage3 = true;
-	vitesseZombie++;
+	//vitesseZombie++;
 	creerZombie(6);
 }
 function Stage4(){
@@ -920,7 +926,7 @@ function anime() {
 
   icompPause +=1;
 }
-else if(finEna)
+else if(finEnaLose)
 {
 
 
@@ -932,12 +938,39 @@ else if(finEna)
 // ctx.fillText("PERDU",lc/2-90,hc/2);
 
 if(zoomLose < 500){
+  
 	zoomLose+=20;
 	ctx.clearRect(0, 0, lc, hc);
+  ctx.fillStyle = "rgba(220, 20, 20, 0.3)";
 	ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
+  ctx.drawImage(loadedAssets.fond2, 0, 0, lc, hc);
+  ctx.fillRect(0,0,lc,hc);
 	ctx.drawImage(loadedAssets.lose, 650 - zoomLose/2, 300 - zoomLose/2, 100+ zoomLose, 100+zoomLose);
 
 }
+
+else
+{
+  ctx.clearRect(0, 0, lc, hc);
+  ctx.fillStyle = "rgba(220, 20, 20, 0.3)";
+  ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
+  ctx.drawImage(loadedAssets.fond2, 0, 0, lc, hc);
+  ctx.fillRect(0,0,lc,hc);
+  ctx.drawImage(loadedAssets.lose, 650 - 500/2, 300 - 500/2, 100+ 500, 100+500);
+}
+
+
+}
+else if(finEnaWin)
+{
+
+ctx.clearRect(0, 0, lc, hc);
+ctx.fillStyle = "rgb(220, 20, 20)";
+ctx.fillRect(0,0,lc,hc);
+ctx.font="65px Courier New";
+ctx.fillStyle = "bold";
+ctx.fillStyle = "black";
+ctx.fillText("GAGNE",lc/2-90,hc/2);
 
 
 }
