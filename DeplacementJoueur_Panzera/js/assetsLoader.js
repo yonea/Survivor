@@ -22,7 +22,9 @@ var assetsToLoadURLs = {
 	fondtransparent1: { url: './assets/fondtransparent1.png' },
 	fondtransparent2: { url: './assets/fondtransparent2.png' },
 	lose: { url: './assets/lose.png' },
-	fin: {url: './assets/fin.mp3' , buffer: false, loop: false, volume: 0.4 }
+    exit: {url: './assets/exit.png' },
+    fondZombie: { url: './assets/fondZombie.jpg' },
+    play: {url: './assets/play.png' }
 
 };
 

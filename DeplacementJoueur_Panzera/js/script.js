@@ -504,8 +504,8 @@ function creerCheval()
 function creerPersonnages(){
  let l = 60;
  let h = 60;
- let x = Math.random() * (lc - 60);
- let y = Math.random()*(hc - 60);
+ let x = lc/2;
+ let y = hc/2;
  let v = 5;
  let vy = 0;
  p1 = new PersonnageI(x, y, l, h, v, vy)
@@ -811,13 +811,13 @@ function Stage1(){
 function Stage2(){
 	stage1 = false;
 	stage2 = true;
-	//vitesseZombie++;
+	vitesseZombie++;
 	creerZombie(4);
 }
 function Stage3(){
 	stage2 = false;
 	stage3 = true;
-	//vitesseZombie++;
+	vitesseZombie++;
 	creerZombie(6);
 }
 function Stage4(){
@@ -839,10 +839,12 @@ function animeChoix(){
   ctx.drawImage(loadedAssets.logords, lc/2 - 300, 30 , 600, 261);
   ctx.font="65px Courier New";
   ctx.fillStyle = "black";
-  ctx.fillText("JOUER",lc/2-96,5*hc/10);
+  // ctx.fillText("JOUER",lc/2-96,5*hc/10);
   ctx.font="65px Courier New";
   ctx.fillStyle = "black";
-  ctx.fillText("REGLAGE",lc/2-131,6*hc/10);
+  // ctx.fillText("REGLAGE",lc/2-131,6*hc/10);
+  ctx.drawImage(loadedAssets.fondZombie, 0, hc-300);
+  ctx.drawImage(loadedAssets.play, lc/2-100, 340, 200, 200);
   
 
   //aJouer.draw(ctx);
@@ -911,6 +913,8 @@ function animeDemarre(){
 
 function animeInitializer(){
   tableauDesZombies = [];
+  vitesseZombie = 0.5;
+  l=0;
   creerPersonnages();
   stage1 = false;
   stage2 = false;
