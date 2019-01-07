@@ -977,11 +977,12 @@ if(zoomLose < 500){
   
 	zoomLose+=20;
 	ctx.clearRect(0, 0, lc, hc);
-  ctx.fillStyle = "rgba(220, 20, 20, 0.3)";
+	ctx.fillStyle = "rgba(220, 20, 20, 0.3)";
 	ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
-  ctx.drawImage(loadedAssets.fond2, 0, 0, lc, hc);
-  ctx.fillRect(0,0,lc,hc);
-	ctx.drawImage(loadedAssets.lose, 650 - zoomLose/2, 300 - zoomLose/2, 100+ zoomLose, 100+zoomLose);
+	ctx.drawImage(loadedAssets.fond2, 0, 0, lc, hc);
+	ctx.fillRect(0,0,lc,hc);
+	ctx.drawImage(loadedAssets.youdied, 700 - zoomLose/2, 300 - zoomLose/2, 100+ zoomLose, 100+zoomLose);
+
 
 }
 
@@ -992,8 +993,9 @@ else
   ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
   ctx.drawImage(loadedAssets.fond2, 0, 0, lc, hc);
   ctx.fillRect(0,0,lc,hc);
-  ctx.drawImage(loadedAssets.lose, 650 - 500/2, 300 - 500/2, 100+ 500, 100+500);
+  ctx.drawImage(loadedAssets.youdied, 700 - 500/2, 300 - 500/2, 100+ 500, 100+500);
   ctx.fillStyle = "black";
+  
   ctx.fillText("ESPACE pour recommencer",lc/2-450,9*hc/10);
 }
 

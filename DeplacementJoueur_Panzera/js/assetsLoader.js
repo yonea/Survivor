@@ -24,7 +24,8 @@ var assetsToLoadURLs = {
 	lose: { url: './assets/lose.png' },
     exit: {url: './assets/exit.png' },
     fondZombie: { url: './assets/fondZombie.jpg' },
-    play: {url: './assets/play.png' }
+    play: {url: './assets/play.png' },
+	youdied : {url: './assets/youdied.png' }
 
 };
 
