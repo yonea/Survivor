@@ -2,4 +2,9 @@
     /*border:1px solid;*/
     background-color:white;
     cursor : crosshair;
+	
   }
+  
+#monBouton{
+	margin-left : 45%;
+}
