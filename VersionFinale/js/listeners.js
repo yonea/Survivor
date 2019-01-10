@@ -1,26 +1,18 @@
 function onmousemove_page(event){
-
-  if( window.event)
-    event = window.event;
-  
-  mousePos = {};
-  mousePos.x = event.clientX ;
-  mousePos.y = event.clientY ;
-
-  let spanx = document.querySelector("#poscx");
-  spanx.innerHTML = event.clientX;
-
-  let spany = document.querySelector("#poscy");
-  spany.innerHTML = event.clientY;
+	if( window.event)
+		event = window.event;
+	mousePos = {};
+	mousePos.x = event.clientX ;
+	mousePos.y = event.clientY ;
+	let spanx = document.querySelector("#poscx");
+	spanx.innerHTML = event.clientX;
+	let spany = document.querySelector("#poscy");
+	spany.innerHTML = event.clientY;
 }
-
-
 function onkeyd_page(event){
 	if(window.event)
 		event = window.event;
-
 	keyd = String.fromCharCode(event.keyCode);
-
 	if(keyd == "Q" || event.keyCode == 37)
 	{
 		leftEna = 1;
@@ -30,22 +22,18 @@ function onkeyd_page(event){
 		l=0;
 		loadedAssets.audiorecharger.play();
 	}
-	
 	if(keyd == "Z" || event.keyCode == 38)
 	{
 		upEna = 1;
 	}
-	
 	if(keyd == "S" || event.keyCode == 40)
 	{
 		downEna = 1;
 	}
-	
 	if(keyd == "D" || event.keyCode == 39)
 	{
 		rigthEna = 1;
 	}
-
 	if(event.keyCode == 32 && chevalEna == 1)
 	{
 		//DESCENDRE CHEVAL
@@ -54,7 +42,6 @@ function onkeyd_page(event){
 		ch1.v = 5;
 		p1.v=5;
 	}
-
 	if(event.keyCode == 27)
 	{
 		//GESTION DE LA PAUSE
@@ -72,36 +59,30 @@ function onkeyd_page(event){
 			loadedAssets.audiomus2.play();
 		}
 	}
-
-  if(finEnaLose || finEnaWin){
-    if(event.keyCode == 32){
-      animeInitializer();
-      // requestAnimationFrame(anime);
-    }
-  }
-}
-
-function onkeyu_page(event)
-{
-	if(window.event)
-		event = window.event;
-	
-	keyu = String.fromCharCode(event.keyCode);
-
-	if(keyu == "Q" || event.keyCode == 37)
+	if(finEnaLose || finEnaWin){
+		if(event.keyCode == 32){
+			animeInitializer();
+		}
+	}}
+	function onkeyu_page(event)
 	{
-		leftEna = 0;
+		if(window.event)
+			event = window.event;
+		keyu = String.fromCharCode(event.keyCode);
+		if(keyu == "Q" || event.keyCode == 37)
+		{
+			leftEna = 0;
+		}
+		if(keyu == "Z" || event.keyCode == 38)
+		{
+			upEna = 0;
+		}
+		if(keyu == "S" || event.keyCode == 40)
+		{
+			downEna = 0;
+		}
+		if(keyu == "D" || event.keyCode == 39)
+		{
+			rigthEna = 0;
+		}  
 	}
-	if(keyu == "Z" || event.keyCode == 38)
-	{
-		upEna = 0;
-	}
-	if(keyu == "S" || event.keyCode == 40)
-	{
-		downEna = 0;
-	}
-	if(keyu == "D" || event.keyCode == 39)
-	{
-		rigthEna = 0;
-	}  
-}
