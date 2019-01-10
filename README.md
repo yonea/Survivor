@@ -23,4 +23,4 @@ Version finale : VersionFinale > index.html
 * Module stock: Le joueur possède 5 balles afin d'éliminer les zombies. Si ce dernier en a plus il a la possibilité de recharger son stock, cependant il faut le faire vite avant que les zombies ne le rattrapent ! (à peaufiner)
 * Module fin de partie : Gérer le cas d'une victoire et le cas d'une défaite.
 
-<p align="center"> # REUSSIREZ-VOUS A RESTER EN VIE ? </p>
+<p align="center"> <h1> REUSSIREZ-VOUS A RESTER EN VIE ? </h1></p>
