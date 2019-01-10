@@ -19,7 +19,7 @@ function onkeyd_page(event){
 	}
 	if(keyd == "R" )
 	{ 
-		l=0;
+		stockBalle=0;
 		loadedAssets.audiorecharger.play();
 	}
 	if(keyd == "Z" || event.keyCode == 38)
