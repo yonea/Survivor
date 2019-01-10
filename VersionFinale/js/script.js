@@ -367,6 +367,7 @@ function animeInitializer(){
   icomp = 0;
   icompPause = 0;
   zoomLose = 0;
+  zoomWin = 0;
   loadedAssets.audiomus.pause();
   loadedAssets.audiofond.play();
   fenetre2Ena = 0;
