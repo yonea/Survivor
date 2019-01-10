@@ -38,6 +38,8 @@ let icomp = 0;
 let icompPause = 0;
 let nbZSurvie = 0;
 let scoreSurvie = 0;
+let icompSurvie = 0, icompSurviediff = 0;
+let irandomSurvie = 0;
 
 document.onselectstart = new Function ("return false");
 
@@ -58,14 +60,72 @@ function deplacerLesZombies(){
 }
 
 function creerZombieSurvie(){
-	if(Math.random()*10 <= 0.3)
+	if(icompSurvie >= 30)
 	{
-		idAlea = Math.round(Math.random() * 4);
-		window['zombie'+(nbZSurvie)] = new Zombie(50, 50, 50, 50, "black", 0, idAlea);
-		tableauDesZombies.push(window['zombie'+nbZSurvie]);
-		nbZSurvie ++;
+		irandomSurvie = Math.random()*40;
+		console.log(irandomSurvie);
+		if(irandomSurvie >= 30)
+		{
+			if(Math.random()*10 <= 5)
+			{
+				idAlea = Math.round(Math.random() * 4);
+				window['zombie'+(nbZSurvie)] = new Zombie(Math.random()*lc/8, Math.random()*hc, 50, 50, "black", 0, idAlea);
+				window['zombie'+(nbZSurvie)].vitesse = 0.5 + 1/40*icompSurviediff;
+				tableauDesZombies.push(window['zombie'+nbZSurvie]);
+				nbZSurvie ++;
 
+			}
+			icompSurviediff++;
+			icompSurvie = 0;
+
+		}
+		else if(irandomSurvie >= 20)
+		{
+			if(Math.random()*10 <= 5)
+			{
+				idAlea = Math.round(Math.random() * 4);
+				window['zombie'+(nbZSurvie)] = new Zombie(Math.random()*lc/8 + 7*lc/8, Math.random()*hc, Math.random()*hc, 50, "black", 0, idAlea);
+				window['zombie'+(nbZSurvie)].vitesse = 0.5 + 1/40*icompSurviediff;
+				tableauDesZombies.push(window['zombie'+nbZSurvie]);
+				nbZSurvie ++;
+
+			}
+			icompSurviediff++;
+			icompSurvie = 0;
+			
+		}
+		else if(irandomSurvie >= 10)
+		{
+			if(Math.random()*10 <= 5)
+			{
+				idAlea = Math.round(Math.random() * 4);
+				window['zombie'+(nbZSurvie)] = new Zombie(Math.random()*lc, Math.random()*hc/7, 50, 50, "black", 0, idAlea);
+				window['zombie'+(nbZSurvie)].vitesse = 0.5 + 1/40*icompSurviediff;
+				tableauDesZombies.push(window['zombie'+nbZSurvie]);
+				nbZSurvie ++;
+
+			}
+			icompSurviediff++;
+			icompSurvie = 0;
+			
+		}
+		else if(irandomSurvie >= 0)
+		{
+			if(Math.random()*10 <= 5)
+			{
+				idAlea = Math.round(Math.random() * 4);
+				window['zombie'+(nbZSurvie)] = new Zombie(Math.random()*lc, Math.random()*hc/7 + 6*hc/7, 50, 50, "black", 0, idAlea);
+				window['zombie'+(nbZSurvie)].vitesse = 0.5 + 1/40*icompSurviediff;
+				tableauDesZombies.push(window['zombie'+nbZSurvie]);
+				nbZSurvie ++;
+
+			}
+			icompSurviediff++;
+			icompSurvie = 0;
+			
+		}
 	}
+	icompSurvie++
 }
 function creerZombie(i){
 	
@@ -416,6 +476,8 @@ function animeDemarre(){
 
 function animeInitializer(){
 	tableauDesZombies = [];
+	icompSurvie = 0;
+	icompSurviediff = 0;
 	nbZSurvie = 0;
 	scoreSurvie = 0;
 	vitesseZombie = 0.5;
