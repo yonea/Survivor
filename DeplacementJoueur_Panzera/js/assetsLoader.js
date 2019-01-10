@@ -21,11 +21,13 @@ var assetsToLoadURLs = {
     zombie4 : { url: './assets/zombie4.png' },
 	fondtransparent1: { url: './assets/fondtransparent1.png' },
 	fondtransparent2: { url: './assets/fondtransparent2.png' },
-	lose: { url: './assets/lose.png' },
     exit: {url: './assets/exit.png' },
     fondZombie: { url: './assets/fondZombie.jpg' },
     play: {url: './assets/play.png' },
-	youdied : {url: './assets/youdied.png' }
+	youdied : {url: './assets/youdied.png' },
+	win : {url: './assets/win.png' }
+
+
 
 };
 

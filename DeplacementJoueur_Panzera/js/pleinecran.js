@@ -28,4 +28,5 @@ function twPleinEcran(_element) {
           document.msExitFullscreen();
         }
       }
+	  
 }

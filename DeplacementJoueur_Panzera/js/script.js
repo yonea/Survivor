@@ -20,23 +20,7 @@ let zH, zL;
 let zAgr = 1.2;
 let v = 0;
 let zoomLose = 0;
-// var personnage = new Image();
-// personnage.src = "assets/personnage.png";
-// var cheval = new Image();
-// cheval.src = "assets/cheval.png";
-// var fond = new Image();
-// fond.src = "assets/fond.jpg";
-// var fond2 = new Image();
-// fond2.src = "assets/fond2.png";
-// var audio = new Audio();
-// audio.src = "assets/gunjs.wav";
-
-//fentre1Ena correspond à la page de démarrage
-
-//image pistolet : 195/301 . 147/560
-//100 . 186
-//64.8 . 48.8
-
+let zoomWin = 0;
 document.onselectstart = new Function ("return false");
 var vitesseZombie=0.5;
 class Zombie {
@@ -125,7 +109,7 @@ constructor(x, y, w, h, c, angle, id) {
     let dx = this.x - p1.x;
     let dy = this.y - p1.y;
     this.angle = Math.atan2(dy,dx) -Math.PI/2;
-    //console.log(this.angle)
+
   }
   
   move() {
@@ -133,8 +117,6 @@ constructor(x, y, w, h, c, angle, id) {
     if(dist > 5) {
       this.x += this.vitesse * Math.sin(this.angle);
       this.y -= this.vitesse * Math.cos(this.angle);
-      //console.log(this.id);
-      //console.log(this.angle);
     }
   }
 }
@@ -162,29 +144,26 @@ var z = 0;
 function creerZombie(i){
   //0,[0,800); [0,1400],0 ; 1400,[0,800];  [0,1400],800
   xAlea = Math.random() * 1500;
-  yAlea = Math.random() * 800;
+  yAlea = Math.random() * 700 + 20;
   
 	if(stage1){
 		for(let nbZ = 1; nbZ<i+1; nbZ++){
-			yAlea = Math.random() * 800;
+			yAlea = Math.random() * 700 + 20;
       idAlea = Math.round(Math.random() * 4);
-      console.log(idAlea);
 			window['zombie'+(nbZ)] = new Zombie(1, yAlea, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]); 		
 		}
 	}
 	if(stage2){
 		for(let nbZ = 1; nbZ<(i/2)+1; nbZ++){
-			yAlea = Math.random() * 800;
+			yAlea = Math.random() * 700 + 20;
       idAlea = Math.round(Math.random() * 4);
-      console.log(idAlea);
 			window['zombie'+(nbZ)] = new Zombie(1, yAlea, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}
 		for(let nbZ = (i/2)+1; nbZ<i+1; nbZ++){
 			xAlea = Math.random() * 1500;
       idAlea = Math.round(Math.random() * 4);
-      console.log(idAlea);
 			window['zombie'+(nbZ)] = new Zombie(xAlea, 1, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}		
@@ -192,16 +171,14 @@ function creerZombie(i){
 	}
 	if(stage3){
 		for(let nbZ = 1; nbZ<(i/3)+1; nbZ++){
-			yAlea = Math.random() * 800;
+			yAlea = Math.random() * 700 + 20;
       idAlea = Math.round(Math.random() * 4);
-      console.log(idAlea);
 			window['zombie'+(nbZ)] = new Zombie(1, yAlea, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}
 		for(let nbZ = (i/3)+1; nbZ<(i/3)*2+1; nbZ++){
 			xAlea = Math.random() * 1500;
       idAlea = Math.round(Math.random() * 4);
-      console.log(idAlea);
 			window['zombie'+(nbZ)] = new Zombie(xAlea, 1, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}		
@@ -209,7 +186,6 @@ function creerZombie(i){
 		for(let nbZ = (i/3)*2+1; nbZ<i+1; nbZ++){
 			yAlea = Math.random() * 1500;
       idAlea = Math.round(Math.random() * 4);
-      console.log(idAlea);
 			window['zombie'+(nbZ)] = new Zombie(1400, yAlea, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}	
@@ -218,16 +194,14 @@ function creerZombie(i){
   }
   if(stage4){
 		for(let nbZ = 1; nbZ<(i/4)+1; nbZ++){
-			yAlea = Math.random() * 800;
+			yAlea = Math.random() * 700 + 20;
       idAlea = Math.round(Math.random() * 4);
-      console.log(idAlea);
 			window['zombie'+(nbZ)] = new Zombie(0, yAlea, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}
 		for(let nbZ = (i/4)+1; nbZ<(i/4)*2+1; nbZ++){
 			xAlea = Math.random() * 1500;
       idAlea = Math.round(Math.random() * 4);
-      console.log(idAlea);
 			window['zombie'+(nbZ)] = new Zombie(xAlea, 0, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}		
@@ -235,7 +209,6 @@ function creerZombie(i){
 		for(let nbZ = (i/4)*2+1; nbZ<(i/4)*3+1; nbZ++){
 			yAlea = Math.random() * 1500;
       idAlea = Math.round(Math.random() * 4);
-      console.log(idAlea);
 			window['zombie'+(nbZ)] = new Zombie(1400, yAlea, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}
@@ -243,7 +216,6 @@ function creerZombie(i){
 		for(let nbZ = (i/4)*3+1; nbZ<i+1; nbZ++){
 			xAlea = Math.random() * 1500;
       idAlea = Math.round(Math.random() * 4);
-      console.log(idAlea);
 			window['zombie'+(nbZ)] = new Zombie(xAlea, 800, 50, 50, "black", 0, idAlea);
 			tableauDesZombies.push(window['zombie'+nbZ]);
 		}
@@ -258,29 +230,20 @@ function creerZombie(i){
   //tableauDesBalles.forEach((r) => {
   let r = balle;
   
-  //console.log("pp" + r.x);
      if(((r.x) <= zombie.x + 50 ) && ((r.y) <= zombie.y + 50 ) && ((r.x) >= zombie.x - 50 ) && ((r.y) >= zombie.y - 50 )) {
-    //console.log("tue");
 		if(i==0){
-			//console.log(zombie.name + "tué");
 			tableauDesZombies.splice(i,1);
 		}
 		else{
-			//console.log(zombie.name + "tué");
 			tableauDesZombies.splice(i,1);
 		}
     
 		if(j==0){
 			tableauDesBalles.splice(j,1);
-			//console.log("avec la balle " + r.name);
 		}
 		else{
 			tableauDesBalles.splice(j,1);
-			//console.log("avec la balle " + r.name);
-		}	
-  
-	//console.log(tableauDesZombies[0]);
-	
+		}		
 	
 	}
   //    if(((r.y+r.h) > hc) || (r.y < 0)) 
@@ -318,14 +281,9 @@ function creerZombie(i){
   
     if(((r.x) <= p1.x + 50 ) && ((r.y) <= p1.y + 50 ) && ((r.x) >= p1.x - 50 ) && ((r.y) >= p1.y - 50 )) 
 	{
-    //console.log("tue");
-    //tableauDesZombies.splice(r,1);
-	//delete p1;
-  finEnaLose = 1;
-  loadedAssets.audiofond.pause();
-	//ecran fin de partie à ajouter
-	console.log("perdu");
-    
+
+	  finEnaLose = 1;
+	  loadedAssets.audiofond.pause();
 	}
   
     
@@ -525,7 +483,6 @@ function creerPersonnages(){
 var l = 0;
 function tirer(){
   l++;
-  console.log("l : " + l);
   let bx = p1.x;
   let by = p1.y;
   let ang = Math.atan2((by - mousePos.y),(bx - mousePos.x));
@@ -557,7 +514,6 @@ function onclick_page(){
 function demarerJeu() {
     // Appelé quand la page est prête et a chargé
     // toutes ses ressources (images, vidéos etc.)
-    console.log("pret")
     canvas = document.querySelector("#myCanvas");
     window.addEventListener("keydown",onkeyd_page, false);
     window.addEventListener("keyup",onkeyu_page, false);
@@ -899,7 +855,6 @@ function animeDemarre(){
 	}
 
 	if (icompdemarre >= 2.6) {
-		console.log("fenetre Choix");
 		loadedAssets.audiomus.play();
 		icompdemarreEna = 0;
 		fenetre1Ena = 0;
@@ -930,7 +885,6 @@ function animeInitializer(){
   icomp = 0;
   icompPause = 0;
   zoomLose = 0;
-  console.log("Demarrage Jeu");
   loadedAssets.audiomus.pause();
   loadedAssets.audiofond.play();
   fenetre2Ena = 0;
@@ -965,14 +919,6 @@ function anime() {
 else if(finEnaLose)
 {
 
-
-// ctx.fillStyle = "rgb(220, 20, 20)";
-// ctx.fillRect(0,0,lc,hc);
-// ctx.font="65px Courier New";
-// ctx.fillStyle = "bold";
-// ctx.fillStyle = "black";
-// ctx.fillText("PERDU",lc/2-90,hc/2);
-
 if(zoomLose < 500){
   
 	zoomLose+=20;
@@ -982,8 +928,7 @@ if(zoomLose < 500){
 	ctx.drawImage(loadedAssets.fond2, 0, 0, lc, hc);
 	ctx.fillRect(0,0,lc,hc);
 	ctx.drawImage(loadedAssets.youdied, 700 - zoomLose/2, 300 - zoomLose/2, 100+ zoomLose, 100+zoomLose);
-
-
+	
 }
 
 else
@@ -995,25 +940,37 @@ else
   ctx.fillRect(0,0,lc,hc);
   ctx.drawImage(loadedAssets.youdied, 700 - 500/2, 300 - 500/2, 100+ 500, 100+500);
   ctx.fillStyle = "black";
-  
-  ctx.fillText("ESPACE pour recommencer",lc/2-450,9*hc/10);
+  ctx.fillText("ESPACE pour recommencer",lc/2-450,hc-100);
 }
 
 
 }
 else if(finEnaWin)
 {
+	if(zoomWin < 500){
+  
+	zoomWin+=20;
+	ctx.clearRect(0, 0, lc, hc);
+	ctx.fillStyle = "rgba(220, 20, 20, 0.3)";
+	ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
+	ctx.drawImage(loadedAssets.fond2, 0, 0, lc, hc);
+	ctx.fillRect(0,0,lc,hc);
+	ctx.drawImage(loadedAssets.win, 700 - zoomWin/2, 300 - zoomWin/2, 250+ zoomWin,  zoomWin-350);
+	
+	}
 
-ctx.clearRect(0, 0, lc, hc);
-ctx.fillStyle = "rgba(220, 20, 20, 0.3)";
-ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
-ctx.drawImage(loadedAssets.fond2, 0, 0, lc, hc);
-ctx.fillRect(0,0,lc,hc);
-ctx.font="65px Courier New";
-ctx.fillStyle = "bold";
-ctx.fillStyle = "black";
-ctx.fillText("GAGNE",lc/2-90,hc/2);
-ctx.fillText("ESPACE pour recommencer",lc/2-450,3*hc/4);
+	ctx.clearRect(0, 0, lc, hc);
+	ctx.fillStyle = "rgba(220, 20, 20, 0.3)";
+	ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
+	ctx.drawImage(loadedAssets.fond2, 0, 0, lc, hc);
+	ctx.fillRect(0,0,lc,hc);
+	ctx.font="65px Courier New";
+	ctx.fillStyle = "bold";
+	ctx.fillStyle = "black";
+	//ctx.fillText("GAGNE",lc/2-90,hc/2);
+	ctx.drawImage(loadedAssets.win, 700 - zoomWin/2, 500 - zoomWin/2, 50+ zoomWin, zoomWin-350);
+
+	ctx.fillText("ESPACE pour recommencer",lc/2-450,3*hc/4);
 
 
 }
