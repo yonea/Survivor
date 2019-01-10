@@ -16,6 +16,7 @@ let finEnaWin = 0;
 let fenetre1Ena = 1;
 let fenetre2Ena = 1;
 let icompdemarreEna = 1;
+let survieChoix = 0;
 let idAlea;
 let zH, zL;
 let zAgr = 1.2;
@@ -35,6 +36,8 @@ let icompdemarre = 0;
 let varSourisChoix = 0;
 let icomp = 0;
 let icompPause = 0;
+let nbZSurvie = 0;
+let scoreSurvie = 0;
 
 document.onselectstart = new Function ("return false");
 
@@ -54,7 +57,16 @@ function deplacerLesZombies(){
 	});
 }
 
+function creerZombieSurvie(){
+	if(Math.random()*10 <= 0.3)
+	{
+		idAlea = Math.round(Math.random() * 4);
+		window['zombie'+(nbZSurvie)] = new Zombie(50, 50, 50, 50, "black", 0, idAlea);
+		tableauDesZombies.push(window['zombie'+nbZSurvie]);
+		nbZSurvie ++;
 
+	}
+}
 function creerZombie(i){
 	
 	xAlea = Math.random() * 1500;
@@ -306,25 +318,33 @@ function testSourisChoix(){
 
 
 function Stage1(){
-	stage1= true;
-	creerZombie(2);
+	if(!survieChoix){
+		stage1= true;
+		creerZombie(2);
+	}
 }
 function Stage2(){
-	stage1 = false;
-	stage2 = true;
-	vitesseZombie++;
-	creerZombie(4);
+	if(!survieChoix){
+		stage1 = false;
+		stage2 = true;
+		vitesseZombie++;
+		creerZombie(4);
+	}
 }
 function Stage3(){
-	stage2 = false;
-	stage3 = true;
-	vitesseZombie++;
-	creerZombie(6);
+	if(!survieChoix){
+		stage2 = false;
+		stage3 = true;
+		vitesseZombie++;
+		creerZombie(6);
+	}
 }
 function Stage4(){
-	stage3 = false;
-	stage4 = true;
-	creerZombie(8);
+	if(!survieChoix){
+		stage3 = false;
+		stage4 = true;
+		creerZombie(8);
+	}
 }
 
 function animeChoix(){
@@ -335,6 +355,25 @@ function animeChoix(){
   ctx.drawImage(loadedAssets.logords, lc/2 - 300, 30 , 600, 261);
   ctx.drawImage(loadedAssets.fondZombie, 0, hc-300);
   ctx.drawImage(loadedAssets.play, lc/2-100, 340, 200, 200);
+  ctx.fillStyle = "black";
+  ctx.fillRect(0,3*hc/30-30,380,85);
+  if(!survieChoix)
+  {
+  	ctx.font="bold 27px Courier New";
+  	ctx.fillStyle = "red";
+  	ctx.fillText("& ou 1: Mode STAGE",0.7*lc/30,3*hc/30);
+  	ctx.font="27px Courier New";
+  	ctx.fillText("é ou 2 : Mode SURVIE",0.7*lc/30,4.5*hc/30);
+  }
+  else if(survieChoix)
+  {
+  	ctx.font="27px Courier New";
+  	ctx.fillStyle = "red";
+  	ctx.fillText("& ou 1: Mode STAGE",0.7*lc/30,3*hc/30);
+  	ctx.font="bold 27px Courier New";
+  	ctx.fillText("é ou 2 : Mode SURVIE",0.7*lc/30,4.5*hc/30);
+  }
+
   if(varSourisChoix == 1){
     animeInitializer();
     requestAnimationFrame(anime);
@@ -377,6 +416,8 @@ function animeDemarre(){
 
 function animeInitializer(){
 	tableauDesZombies = [];
+	nbZSurvie = 0;
+	scoreSurvie = 0;
 	vitesseZombie = 0.5;
 	stockBalle=0;
 	creerPersonnages();
@@ -435,7 +476,13 @@ function anime() {
 			ctx.drawImage(loadedAssets.youdied, 700 - 500/2, 300 - 500/2, 100+ 500, 100+500);
 			ctx.font="65px Courier New";
 			ctx.fillStyle = "black";
-			ctx.fillText("ESPACE pour recommencer",lc/2-450,hc-100);
+			ctx.fillText("ESPACE pour recommencer",lc/2-450,hc-130);
+			if(survieChoix)
+			{
+				ctx.font="bold 60px Courier New";
+  				ctx.fillStyle = "black";
+  				ctx.fillText("Score : " + scoreSurvie,lc/2-170,hc-50);
+			}
 		}
 	}
 	else if(finEnaWin)
@@ -460,7 +507,7 @@ function anime() {
 		ctx.drawImage(loadedAssets.win, 700 - zoomWin/2, 500 - zoomWin/2, 50+ zoomWin, zoomWin-350);
 		ctx.fillText("ESPACE pour recommencer",lc/2-450,3*hc/4);
 	}
-	else {
+	else if(!survieChoix){
 		ctx.clearRect(0, 0, lc, hc);
 		ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
 		detectMur();
@@ -529,5 +576,79 @@ function anime() {
 			}
 		}
 	}
+	else if(survieChoix){
+		ctx.clearRect(0, 0, lc, hc);
+		ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
+		creerZombieSurvie();
+		detectMur();
+		if(mousePos !== undefined) {
+			for(let j = 0; j< tableauDesBalles.length; j++){
+				let ba = tableauDesBalles[j];
+				for(let i = 0; i< tableauDesZombies.length; i++){
+					let zo = tableauDesZombies[i];
+					CollisionBalleAvecZombie(zo, i, ba, j);
+				}
+			}
+			for(let i = 0; i< tableauDesZombies.length; i++){
+				let zo = tableauDesZombies[i];
+				zo.suitPersonnage(p1);
+				zo.move();
+			}
+			CollisionZombieAvecPersonnage();
+			p1.suitsouris(mousePos);
+			if (chevalEna)
+				ch1.suitsouris(mousePos);
+		}
+		//gerer les mouvements
+		deplacerLesZombies();
+		mouvementJoueur();
+		if (chevalEna)
+		{
+			mouvementCheval();
+		}
+		deplacerLesBalles(); 
+		recharger();
+		//dessiner les personnges
+		dessinerLesBalles();  
+		dessinerLesZombies();  
+		dessinerCheval(); 
+		dessinerPersonnage();
+		ctx.font="27px Courier New";
+  		ctx.fillStyle = "black";
+  		ctx.fillText("Score : " + scoreSurvie,0.7*lc/30,3*hc/30);
+		ctx.drawImage(loadedAssets.fond2, (-100 + ((Math.cos(icomp)*50)+50)), (-100 + ((Math.sin(icomp*0.7)*35)+35)), lc+200, hc+200);
+		if(p1.x <= (ch1.x + 50) && p1.x >= (ch1.x - 50) && p1.y <= (ch1.y + 50) && p1.y >= (ch1.y - 50) && chevalEna == 0 && chevalApp == 0)
+		{
+			chevalApp = 1;
+			ch1.x = p1.x;
+			ch1.y = p1.y;
+			chevalEna = 1;
+			ch1.v = 10;
+			p1.v=10;
+		}
+		if(p1.x >= (ch1.x + 50) || p1.x <= (ch1.x - 50) || p1.y >= (ch1.y + 50) || p1.y <= (ch1.y - 50) )
+		{
+			v=0;
+			chevalApp = 0;
+		}    
+		icomp += 0.015;
+		if(chevalApp){
+			ctx.drawImage(loadedAssets.fondtransparent2, 1340, 110, 140, 20);
+			if(v<141){
+				v += 0.4;
+				ctx.drawImage(loadedAssets.fondtransparent1, 1340, 110, v, 20);
+			}
+			else{
+			 chevalApp = 1;
+			 chevalEna = 0;
+			 ch1.x = p1.x - 74;
+			 ch1.y = p1.y - 74;
+			 ch1.v = 5;
+			 p1.v=5;
+			 v=0;
+			}
+		}
+	}
+
 	requestAnimationFrame(anime);
 }

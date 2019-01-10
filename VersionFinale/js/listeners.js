@@ -4,10 +4,10 @@ function onmousemove_page(event){
 	mousePos = {};
 	mousePos.x = event.clientX ;
 	mousePos.y = event.clientY ;
-	let spanx = document.querySelector("#poscx");
-	spanx.innerHTML = event.clientX;
-	let spany = document.querySelector("#poscy");
-	spany.innerHTML = event.clientY;
+	// let spanx = document.querySelector("#poscx");
+	// spanx.innerHTML = event.clientX;
+	// let spany = document.querySelector("#poscy");
+	// spany.innerHTML = event.clientY;
 }
 function onkeyd_page(event){
 	if(window.event)
@@ -34,6 +34,16 @@ function onkeyd_page(event){
 	{
 		rigthEna = 1;
 	}
+	if(event.keyCode == 49 && fenetre2Ena)
+	{
+		loadedAssets.audiochoix.play();
+		survieChoix = 0;
+	}
+	if(event.keyCode == 50 && fenetre2Ena)
+	{
+		loadedAssets.audiochoix.play();
+		survieChoix = 1;
+	}
 	if(event.keyCode == 32 && chevalEna == 1)
 	{
 		//DESCENDRE CHEVAL
@@ -42,7 +52,7 @@ function onkeyd_page(event){
 		ch1.v = 5;
 		p1.v=5;
 	}
-	if(event.keyCode == 27)
+	if(event.keyCode == 27 && !fenetre1Ena && !fenetre2Ena)
 	{
 		//GESTION DE LA PAUSE
 		if(pauseEna)

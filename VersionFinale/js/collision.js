@@ -12,9 +12,17 @@
  	if(((r.x) <= zombie.x + 50 ) && ((r.y) <= zombie.y + 50 ) && ((r.x) >= zombie.x - 50 ) && ((r.y) >= zombie.y - 50 )) {
  		if(i==0){
  			tableauDesZombies.splice(i,1);
+ 			if(survieChoix)
+ 			{
+ 				scoreSurvie ++;
+ 			}
  		}
  		else{
  			tableauDesZombies.splice(i,1);
+ 			if(survieChoix)
+ 			{
+ 				scoreSurvie ++;
+ 			}
  		}
 
  		if(j==0){
