@@ -569,9 +569,12 @@ function anime() {
 		ctx.drawImage(loadedAssets.win, 700 - zoomWin/2, 500 - zoomWin/2, 50+ zoomWin, zoomWin-350);
 		ctx.fillText("ESPACE pour recommencer",lc/2-450,3*hc/4);
 	}
-	else if(!survieChoix){
+	else{
 		ctx.clearRect(0, 0, lc, hc);
 		ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
+		if(survieChoix){
+			creerZombieSurvie();
+		}
 		detectMur();
 		if(mousePos !== undefined) {
 			for(let j = 0; j< tableauDesBalles.length; j++){
@@ -605,79 +608,11 @@ function anime() {
 		dessinerLesZombies();  
 		dessinerCheval(); 
 		dessinerPersonnage();
-		ctx.drawImage(loadedAssets.fond2, (-100 + ((Math.cos(icomp)*50)+50)), (-100 + ((Math.sin(icomp*0.7)*35)+35)), lc+200, hc+200);
-		if(p1.x <= (ch1.x + 50) && p1.x >= (ch1.x - 50) && p1.y <= (ch1.y + 50) && p1.y >= (ch1.y - 50) && chevalEna == 0 && chevalApp == 0)
-		{
-			chevalApp = 1;
-			ch1.x = p1.x;
-			ch1.y = p1.y;
-			chevalEna = 1;
-			ch1.v = 10;
-			p1.v=10;
+		if(survieChoix){
+			ctx.font="27px Courier New";
+			ctx.fillStyle = "black";
+			ctx.fillText("Score : " + scoreSurvie,0.7*lc/30,3*hc/30);
 		}
-		if(p1.x >= (ch1.x + 50) || p1.x <= (ch1.x - 50) || p1.y >= (ch1.y + 50) || p1.y <= (ch1.y - 50) )
-		{
-			v=0;
-			chevalApp = 0;
-		}    
-		icomp += 0.015;
-		if(chevalApp){
-			ctx.drawImage(loadedAssets.fondtransparent2, 1340, 110, 140, 20);
-			if(v<141){
-				v += 0.4;
-				ctx.drawImage(loadedAssets.fondtransparent1, 1340, 110, v, 20);
-			}
-			else{
-			 chevalApp = 1;
-			 chevalEna = 0;
-			 ch1.x = p1.x - 74;
-			 ch1.y = p1.y - 74;
-			 ch1.v = 5;
-			 p1.v=5;
-			 v=0;
-			}
-		}
-	}
-	else if(survieChoix){
-		ctx.clearRect(0, 0, lc, hc);
-		ctx.drawImage(loadedAssets.fond, 0, 0, lc, hc);
-		creerZombieSurvie();
-		detectMur();
-		if(mousePos !== undefined) {
-			for(let j = 0; j< tableauDesBalles.length; j++){
-				let ba = tableauDesBalles[j];
-				for(let i = 0; i< tableauDesZombies.length; i++){
-					let zo = tableauDesZombies[i];
-					CollisionBalleAvecZombie(zo, i, ba, j);
-				}
-			}
-			for(let i = 0; i< tableauDesZombies.length; i++){
-				let zo = tableauDesZombies[i];
-				zo.suitPersonnage(p1);
-				zo.move();
-			}
-			CollisionZombieAvecPersonnage();
-			p1.suitsouris(mousePos);
-			if (chevalEna)
-				ch1.suitsouris(mousePos);
-		}
-		//gerer les mouvements
-		deplacerLesZombies();
-		mouvementJoueur();
-		if (chevalEna)
-		{
-			mouvementCheval();
-		}
-		deplacerLesBalles(); 
-		recharger();
-		//dessiner les personnges
-		dessinerLesBalles();  
-		dessinerLesZombies();  
-		dessinerCheval(); 
-		dessinerPersonnage();
-		ctx.font="27px Courier New";
-  		ctx.fillStyle = "black";
-  		ctx.fillText("Score : " + scoreSurvie,0.7*lc/30,3*hc/30);
 		ctx.drawImage(loadedAssets.fond2, (-100 + ((Math.cos(icomp)*50)+50)), (-100 + ((Math.sin(icomp*0.7)*35)+35)), lc+200, hc+200);
 		if(p1.x <= (ch1.x + 50) && p1.x >= (ch1.x - 50) && p1.y <= (ch1.y + 50) && p1.y >= (ch1.y - 50) && chevalEna == 0 && chevalApp == 0)
 		{
