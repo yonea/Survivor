@@ -26,6 +26,9 @@ let zoomWin = 0;
 var vitesseZombie=0.5;
 let tableauDesZombies = [];
 let tableauDesBalles = [];
+let tableauDesAnimationsTir = [];
+let tableauDesAnimationsMort = [];
+let couleurAnim, irandAn;
 var z = 0;
 var stockBalle = 0;
 var stage1;
@@ -37,6 +40,8 @@ let varSourisChoix = 0;
 let icomp = 0;
 let icompPause = 0;
 let nbZSurvie = 0;
+let nbAnim = 0;
+let nbAnimMort = 0;
 let scoreSurvie = 0;
 let icompSurvie = 0, icompSurviediff = 0;
 let irandomSurvie = 0;
@@ -230,6 +235,29 @@ function deplacerLesBalles(){
 	});
 }
 
+function dessinerLesAnimsTir(){
+	tableauDesAnimationsTir.forEach((r) => {
+		r.draw(ctx);
+	})
+}
+
+function deplacerLesAnimsTir(){
+	tableauDesAnimationsTir.forEach((r) => {
+		r.move();
+	});
+}
+function dessinerLesAnimsMort(){
+	tableauDesAnimationsMort.forEach((r) => {
+		r.draw(ctx);
+	})
+}
+
+function deplacerLesAnimsMort(){
+	tableauDesAnimationsMort.forEach((r) => {
+		r.move();
+	});
+}
+
 function creerPersonnages(){
 	let l = 60;
 	let h = 60;
@@ -259,8 +287,30 @@ function tirer(){
   if(stockBalle<6)
   {
     loadedAssets.audio.play();
-    window['balle'+stockBalle] = new Balle(bx,by, bvx, bvy, bv);
+    window['balle'+stockBalle] = new Balle(bx,by, bvx, bvy, bv, p1.angle);
     tableauDesBalles.push(window['balle'+stockBalle]); 
+
+    for(let i = 0; i<=30; i++){
+
+    	irandAn = Math.round(Math.random()*4);
+    	switch(irandAn) {
+      case 1:
+      couleurAnim = "rgba(255, 55, 11, 0.9)";
+      break;
+      case 2:
+      couleurAnim = "rgba(255, 198, 8, 0.8)";
+      break;
+      case 3:
+      couleurAnim = "rgba(0, 0, 0, 0.7)";
+      break;
+      case 4:
+      couleurAnim = "rgba(255, 231, 181, 0.7)";
+      break;
+      default:}
+		window['animtir'+(nbAnim)] = new AnimTir(p1.x, p1.y, p1.angle + ((Math.PI/240)*i-Math.PI/16), 25 - Math.random()*12, couleurAnim);
+		tableauDesAnimationsTir.push(window['animtir'+(nbAnim)]);
+		nbAnim ++;
+	}
   } 
 }
 
@@ -476,6 +526,10 @@ function animeDemarre(){
 
 function animeInitializer(){
 	tableauDesZombies = [];
+	tableauDesAnimationsTir = [];
+	tableauDesAnimationsMort = [];
+	nbAnimMort = 0;
+	nbAnim = 0;
 	icompSurvie = 0;
 	icompSurviediff = 0;
 	nbZSurvie = 0;
@@ -576,6 +630,16 @@ function anime() {
 			creerZombieSurvie();
 		}
 		detectMur();
+
+		for(let i = 0; i< tableauDesAnimationsTir.length; i++){
+					let antir = tableauDesAnimationsTir[i];
+					finAnimTir(antir, i);
+				}
+		for(let i = 0; i< tableauDesAnimationsMort.length; i++){
+					let anmort = tableauDesAnimationsMort[i];
+					finAnimMort(anmort, i);
+				}
+
 		if(mousePos !== undefined) {
 			for(let j = 0; j< tableauDesBalles.length; j++){
 				let ba = tableauDesBalles[j];
@@ -596,9 +660,11 @@ function anime() {
 		}
 		//gerer les mouvements
 		deplacerLesZombies();
+		deplacerLesAnimsTir();
+		deplacerLesAnimsMort();
+
 		mouvementJoueur();
-		if (chevalEna)
-		{
+		if (chevalEna){
 			mouvementCheval();
 		}
 		deplacerLesBalles(); 
@@ -606,8 +672,12 @@ function anime() {
 		//dessiner les personnges
 		dessinerLesBalles();  
 		dessinerLesZombies();  
-		dessinerCheval(); 
+		dessinerCheval();
+		dessinerLesAnimsTir(); 
+		
 		dessinerPersonnage();
+		dessinerLesAnimsMort(); 
+		
 		if(survieChoix){
 			ctx.font="27px Courier New";
 			ctx.fillStyle = "black";
