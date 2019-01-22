@@ -12,7 +12,7 @@ class AnimMort {
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.rotate(this.angle);
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "rgb(133, 6, 6)"; 
     ctx.fillRect(0,0,2,30);
     ctx.restore();
   }
